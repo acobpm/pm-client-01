@@ -2,18 +2,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Promise {
-  Promise({ 
-    this.promiseId,
-    this.creatorId,
-    this.promiseFromId,
-    this.promiseToId,
-    this.mood,
-    this.expireTime,    
-    this.title,
-    this.bonus,
-    this.loveRate,
-    this.status
-    });
+  Promise(
+      {this.promiseId,
+      this.creatorId,
+      this.promiseFromId,
+      this.promiseToId,
+      this.mood,
+      this.expireTime,
+      this.title,
+      this.bonus,
+      this.loveRate,
+      this.status});
   String promiseId;
   String creatorId;
   String promiseFromId;
@@ -40,11 +39,12 @@ class Promise {
 class ListModel<E> {
   ListModel({
     @required this.listKey,
-   // @required this.removedItemBuilder,
+    // @required this.removedItemBuilder,
     Iterable<E> initialItems,
-  }) : assert(listKey != null),
-       //assert(removedItemBuilder != null),
-       _items = new List<E>.from(initialItems ?? <E>[]);
+  })
+      : assert(listKey != null),
+        //assert(removedItemBuilder != null),
+        _items = new List<E>.from(initialItems ?? <E>[]);
 
   final GlobalKey<AnimatedListState> listKey;
   //final dynamic removedItemBuilder;
@@ -71,4 +71,3 @@ class ListModel<E> {
   E operator [](int index) => _items[index];
   int indexOf(E item) => _items.indexOf(item);
 }
-
