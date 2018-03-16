@@ -71,3 +71,27 @@ class ListModel<E> {
   E operator [](int index) => _items[index];
   int indexOf(E item) => _items.indexOf(item);
 }
+
+class PromiseHistory {
+  PromiseHistory({
+    this.promiseId,
+    this.currentId,
+    this.message,
+    this.status,
+    this.timestamp,
+  });
+  String promiseId;
+  String currentId;
+  String message;
+  String status;
+  DateTime timestamp;
+
+  PromiseHistory.fromJson(Map json) {
+    this.promiseId = json['promiseId'];
+    this.currentId = json['currentId'];
+    this.message = json['message'];
+    this.status = json['status'];
+    this.timestamp = DateTime.parse(json['timestamp']);
+  }
+}
+

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'model/data.dart';
 import 'util.dart';
+import 'local/json.dart';
 
 class PromiseDetailPage extends StatefulWidget {
   PromiseDetailPage(this.promise);
@@ -316,49 +317,92 @@ class PromiseDetailState extends State<PromiseDetailPage> {
   }
 
   _buildTxList() {
+    List<PromiseHistory> list = <PromiseHistory>[];
+    final pmHisJsonList = toList(txDoneList).reversed; // from json.dart
+    for (var map in pmHisJsonList) {
+      list.add(new PromiseHistory.fromJson(map));
+    }
     return new Expanded(
         flex: 2,
         child: new Container(
             height: 420.0,
             margin: const EdgeInsets.only(right: 15.0),
-            padding: const EdgeInsets.all(3.0),
+            padding: const EdgeInsets.all(5.0),
             decoration:
                 new BoxDecoration(border: new Border.all(color: Colors.brown)),
-            child: new ListView(
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(5.0),
-              children: <Widget>[
-                const Text('I\'m dedicating every day to you'),
-                const Text('Domestic life was never quite my style'),
-                const Text('When you smile, you knock me out, I fall apart'),
-                const Text('And I thought I was so smart'),
-                const Text('I\'m dedicating every day to you'),
-                const Text('Domestic life was never quite my style'),
-                const Text('When you smile, you knock me out, I fall apart'),
-                const Text('And I thought I was so smart'),
-                const Text('I\'m dedicating every day to you'),
-                const Text('Domestic life was never quite my style'),
-                const Text('When you smile, you knock me out, I fall apart'),
-                const Text('And I thought I was so smart'),
-                const Text('I\'m dedicating every day to you'),
-                const Text('Domestic life was never quite my style'),
-                const Text('When you smile, you knock me out, I fall apart'),
-                const Text('And I thought I was so smart'),
-                const Text('I\'m dedicating every day to you'),
-                const Text('Domestic life was never quite my style'),
-                const Text('When you smile, you knock me out, I fall apart'),
-                const Text('And I thought I was so smart'),
-                const Text('I\'m dedicating every day to you'),
-                const Text('Domestic life was never quite my style'),
-                const Text('When you smile, you knock me out, I fall apart'),
-                const Text('And I thought I was so smart'),
-                const Text('I\'m dedicating every day to you'),
-                const Text('Domestic life was never quite my style'),
-                const Text('When you smile, you knock me out, I fall apart'),
-                const Text('And I thought I was so smart'),
-              ],
+            child: new ListView.builder(
+              itemBuilder: (BuildContext context, int index) =>
+                  new EntryItem(list[index]),
+              itemCount: list.length,
             )));
   }
 
   void _onPress() {}
+}
+
+class EntryItem extends StatelessWidget {
+  const EntryItem(this.entry);
+
+  final PromiseHistory entry;
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildPHItem(entry);
+  }
+
+  Widget _buildPHItem(PromiseHistory entry) {
+    final _phTextFont = const TextStyle(fontSize: 14.0);
+    final _phTextFontStatus = const TextStyle(fontSize: 16.0, color: Colors.brown);
+    return new Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.end,
+      //crossAxisAlignment: CrossAxisAlignment.end,
+      children: <Widget>[
+        new Row(children: <Widget>[
+          new Container( 
+              width: 60.0,             
+              child: new Column(
+                children: <Widget>[
+                  new Icon(Icons.account_box,size: 48.0,color: Colors.blue,),
+                  new Text(entry.currentId)
+                ],
+              )),         
+          new Expanded( 
+            child: new Column(mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+               new Row(
+                children: <Widget>[
+                  new Icon(Icons.calendar_today,color:Colors.black87),
+                  new Expanded(child: new Text(" " + formatDate(entry.timestamp,"F"), style: _phTextFont,))
+                ],
+              ) ,
+              new Row(
+                children: <Widget>[
+                  new Icon(Icons.assignment,color:Colors.brown),
+                  new Expanded(child: new Text(" " + entry.status, style: _phTextFontStatus,))
+                ],
+              ) ,
+          ],)
+          )
+        ]),
+         new Padding(
+            padding: new EdgeInsets.symmetric(vertical: 5.0),
+          ),
+        new Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+             new Padding(
+              padding: new EdgeInsets.symmetric(horizontal: 5.0),
+            ),
+            new Icon(Icons.email,color: Colors.black54,size: 18.0),
+            new Expanded(child: new Text(" " + entry.message, style: _phTextFont,))
+          ],
+        ),
+        new Padding(
+            padding: new EdgeInsets.symmetric(vertical: 3.0),
+          ),
+        const Divider(height: 1.0,color: Colors.black87),
+      ],
+    );
+  }
 }

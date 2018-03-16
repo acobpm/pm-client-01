@@ -1,8 +1,22 @@
 //import 'package:flutter/foundation.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 //import 'package:jaguar_serializer/jaguar_serializer.dart';
 
 //import 'dart:io';
+
+final _dateFormatFull = new DateFormat('dd/MM/yyyy hh:mm:ss');
+
+String formatDate(DateTime dt,String type){
+  if (dt ==null){
+    return "";
+  }
+  if (type == "F"){
+    return _dateFormatFull.format(dt);
+  }
+  //no type matches
+  return "";
+}
 
 List<Map> toList(String jsonString) {
   final jsonData = JSON.decode(jsonString);

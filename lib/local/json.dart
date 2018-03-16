@@ -33,3 +33,34 @@ const localPMList = ''' [
         "expireTime":"20180508T120000.000Z"
     }
 ]  ''';
+
+const txDoneList = ''' [
+    {
+         "promiseId" : "101",
+         "currentId": "Vicky",
+         "status":"New",
+         "message":"It is your turn to wash dishes tonight!",
+         "timestamp":"20180228T163000.000Z"        
+    },
+    {
+         "promiseId" : "101",
+         "currentId" :"Mason",
+         "status":"Negociating",
+         "message":"Can I do it tomorrow? very tired from work...",
+         "timestamp":"20180228T165100.000Z"        
+    },
+    {
+         "promiseId" : "101",
+         "currentId" :"Vicky",
+         "status":"Negociating",
+         "message":"No more execuses please",
+         "timestamp":"20180228T165100.000Z"        
+    },
+     {
+         "promiseId" : "101",
+         "currentId" :"Vicky",
+         "status":"Fufilling",
+         "message":"OK then , I will do it!",
+         "timestamp":"20180228T165100.000Z"        
+    }
+] ''';
