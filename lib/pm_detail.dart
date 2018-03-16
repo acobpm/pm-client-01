@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'model/data.dart';
 import 'util.dart';
 import 'local/json.dart';
+import 'pm_nav.dart';
 
 class PromiseDetailPage extends StatefulWidget {
   PromiseDetailPage(this.promise);
@@ -36,37 +37,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
         ],
       ),
       body: _buildDetail(item),
-      bottomNavigationBar: new BottomNavigationBar(
-        currentIndex: _screen,
-        onTap: (int index) {
-          setState(() {
-            _screen = index;
-          });
-        },
-        items: [
-          new BottomNavigationBarItem(
-            icon: new Icon(Icons.sentiment_very_satisfied),
-            title: new Text(
-              'Promise',
-              style: _biggerFont,
-            ),
-          ),
-          new BottomNavigationBarItem(
-            icon: new Icon(Icons.account_balance_wallet),
-            title: new Text(
-              'Wallet',
-              style: _biggerFont,
-            ),
-          ),
-          new BottomNavigationBarItem(
-            icon: new Icon(Icons.report),
-            title: new Text(
-              'Stats',
-              style: _biggerFont,
-            ),
-          ),
-        ],
-      ),
+      bottomNavigationBar: new PromiseNavBottom(0),
     );
   }
 
@@ -258,6 +229,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
               ],
             ),
           ),
+        
           new TextField(
               maxLines: 5,
               decoration: new InputDecoration(
@@ -358,17 +330,13 @@ class EntryItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       //crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
-        new Row(children: <Widget>[
-          new Container( 
-              width: 60.0,             
-              child: new Column(
+        new ListTile(
+          leading: new Column(            
                 children: <Widget>[
                   new Icon(Icons.account_box,size: 48.0,color: Colors.blue,),
-                  new Text(entry.currentId)
-                ],
-              )),         
-          new Expanded( 
-            child: new Column(mainAxisSize: MainAxisSize.max,
+                  new Text(entry.currentId, maxLines: 1,style: const TextStyle(fontSize: 12.0))
+                ]),
+          title: new Column(mainAxisSize: MainAxisSize.max,
           children: <Widget>[
                new Row(
                 children: <Widget>[
@@ -381,10 +349,37 @@ class EntryItem extends StatelessWidget {
                   new Icon(Icons.assignment,color:Colors.brown),
                   new Expanded(child: new Text(" " + entry.status, style: _phTextFontStatus,))
                 ],
-              ) ,
-          ],)
-          )
-        ]),
+              ) 
+          ]
+        )
+        ),
+        // new Row(children: <Widget>[
+        //   new Container( 
+        //       width: 60.0,             
+        //       child: new Column(
+        //         children: <Widget>[
+        //           new Icon(Icons.account_box,size: 48.0,color: Colors.blue,),
+        //           new Text(entry.currentId)
+        //         ],
+        //       )),         
+        //   new Expanded( 
+        //     child: new Column(mainAxisSize: MainAxisSize.max,
+        //   children: <Widget>[
+        //        new Row(
+        //         children: <Widget>[
+        //           new Icon(Icons.calendar_today,color:Colors.black87),
+        //           new Expanded(child: new Text(" " + formatDate(entry.timestamp,"F"), style: _phTextFont,))
+        //         ],
+        //       ) ,
+        //       new Row(
+        //         children: <Widget>[
+        //           new Icon(Icons.assignment,color:Colors.brown),
+        //           new Expanded(child: new Text(" " + entry.status, style: _phTextFontStatus,))
+        //         ],
+        //       ) ,
+        //   ],)
+        //   )
+        // ]),
          new Padding(
             padding: new EdgeInsets.symmetric(vertical: 5.0),
           ),

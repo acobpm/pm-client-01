@@ -6,6 +6,10 @@ import 'model/data.dart';
 import 'local/json.dart';
 import 'util.dart';
 import 'pm_detail.dart';
+import 'pm_new.dart';
+import 'pm_nav.dart';
+
+//import 'localization.dart';
 
 class PromiseListWidget extends StatefulWidget {
   @override
@@ -15,7 +19,7 @@ class PromiseListWidget extends StatefulWidget {
 class PromiseListState extends State<PromiseListWidget> {
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
-  int _screen = 0;
+
   List<Promise> _pmList = <Promise>[];
   //new Promise(expireTime:new DateTime(2018,3,8,12,0,0),title: 'Wash dishes tonight!',bonus: 10.0, loveRate: 1, status: "Expired"),
   //new Promise(expireTime:new DateTime(2018,3,10,12,0,0),title: 'Mown the lawn!',bonus: 20.0, loveRate: 2, status: "Fufilling"),
@@ -28,6 +32,8 @@ class PromiseListState extends State<PromiseListWidget> {
   final GlobalKey<AnimatedListState> _listKey =
       new GlobalKey<AnimatedListState>();
   ListModel<Promise> _list;
+
+  String _userMe = "Vicky" ; //current user
 
   @override
   void initState() {
@@ -47,13 +53,14 @@ class PromiseListState extends State<PromiseListWidget> {
 
   @override
   Widget build(BuildContext context) {
+    
     // final wordPair = new WordPair.random();
     // return new Text(wordPair.asPascalCase);
     return new DefaultTabController(
         length: choices.length,
         child: new Scaffold(
           appBar: new AppBar(
-            title: new Text('Promise List'),
+            title: new Text("PM List"),
             bottom: new TabBar(
               isScrollable: true,
               labelStyle: _biggerFont,
@@ -70,43 +77,28 @@ class PromiseListState extends State<PromiseListWidget> {
           ),
           body: new TabBarView(
             children: choices.map((Choice choice) {
+
               return new Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: new ChoiceCard(choice: choice, list: _list),
               );
             }).toList(),
           ),
-          bottomNavigationBar: new BottomNavigationBar(
-            currentIndex: _screen,
-            onTap: (int index) {
-              setState(() {
-                _screen = index;
-              });
-            },
-            items: [
-              new BottomNavigationBarItem(
-                icon: new Icon(Icons.sentiment_very_satisfied),
-                title: new Text(
-                  'Promise',
-                  style: _biggerFont,
-                ),
-              ),
-              new BottomNavigationBarItem(
-                icon: new Icon(Icons.account_balance_wallet),
-                title: new Text(
-                  'Wallet',
-                  style: _biggerFont,
-                ),
-              ),
-              new BottomNavigationBarItem(
-                icon: new Icon(Icons.report),
-                title: new Text(
-                  'Stats',
-                  style: _biggerFont,
-                ),
-              ),
-            ],
-          ),
+          bottomNavigationBar: new PromiseNavBottom(0),
+          floatingActionButton: new FloatingActionButton(
+            elevation: 0.0,
+            child: new Icon(Icons.add),            
+            onPressed: (){
+
+                Navigator.push(
+              context,
+              new MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    new PromiseMePage(null),
+              ));
+
+            }
+          )
         ));
   }
 }
