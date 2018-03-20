@@ -31,7 +31,11 @@ class PromiseListState extends State<PromiseListWidget> {
 
   final GlobalKey<AnimatedListState> _listKey =
       new GlobalKey<AnimatedListState>();
-  ListModel<Promise> _list;
+  final GlobalKey<AnimatedListState> _listKeyH =
+      new GlobalKey<AnimatedListState>();
+  final GlobalKey<AnimatedListState> _listKeyM =
+      new GlobalKey<AnimatedListState>();
+  ListModel<Promise> _list,_list_h,_list_m;
 
   String _userMe = "Vicky" ; //current user
 
@@ -49,6 +53,22 @@ class PromiseListState extends State<PromiseListWidget> {
       listKey: _listKey,
       initialItems: _pmList,
     );
+    final _mList = _pmList.where(
+      (p) => p.promiseFromId == _userMe 
+    ).toList();
+     _list_m = new ListModel<Promise>(
+      listKey: _listKeyM,
+      initialItems: _mList,
+    );
+
+    final _hList = _pmList.where(
+      (p) => p.promiseToId == _userMe 
+    ).toList();
+     _list_h = new ListModel<Promise>(
+      listKey: _listKeyH,
+      initialItems: _hList,
+    );
+    
   }
 
   @override
@@ -77,10 +97,25 @@ class PromiseListState extends State<PromiseListWidget> {
           ),
           body: new TabBarView(
             children: choices.map((Choice choice) {
+              var _filterList ; 
+              switch (choice.id) {
+                case "M" :
+                  _filterList = _list_m;
+        
+                  
+                  break;
+                  case "H" :
+                  
+                  _filterList = _list_h;
+                  break;
+                default:
+                  _filterList = _list;
+
+              }
 
               return new Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: new ChoiceCard(choice: choice, list: _list),
+                child: new ChoiceCard(choice: choice, list: _filterList),
               );
             }).toList(),
           ),
@@ -104,15 +139,16 @@ class PromiseListState extends State<PromiseListWidget> {
 }
 
 class Choice {
-  const Choice({this.title});
+  const Choice({this.id,this.title});
   final String title;
+  final String id;
   // final IconData icon;
 }
 
 const List<Choice> choices = const <Choice>[
-  const Choice(title: 'ALL'),
-  const Choice(title: 'My Promise'),
-  const Choice(title: 'Her Promise'),
+  const Choice(id:"A",title: 'ALL'),
+  const Choice(id:"M",title: 'My Promise'),
+  const Choice(id:"H",title: 'Her Promise'),
 ];
 
 class ChoiceCard extends StatelessWidget {

@@ -111,28 +111,8 @@ class PromiseMeState extends State<PromiseMePage> {
                             }).toList(),
                           ),
                         ),
-                        new InputDecorator(
-                          decoration: const InputDecoration(
-                            labelText: 'Love',
-                            hintText: 'Select Love',
-                          ),
-                          isEmpty: _selLove == 0,
-                          child: new DropdownButton<int>(
-                            value: _selLove,
-                            isDense: true,
-                            onChanged: (int newValue) {
-                              setState(() {
-                                _selLove = newValue;
-                              });
-                            },
-                            items: _loveList.map((int value) {
-                              return new DropdownMenuItem<int>(
-                                value: value,
-                                child: new Text(value.toString()),
-                              );
-                            }).toList(),
-                          ),
-                        ),
+                        
+                        _buildIconButton(),
                         new TextField(
                           decoration: const InputDecoration(
                             labelText: 'comments',
@@ -151,9 +131,79 @@ class PromiseMeState extends State<PromiseMePage> {
             }).toList(),
           ),
           bottomNavigationBar: new PromiseNavBottom(0),
+          floatingActionButton: new FloatingActionButton(
+            elevation: 0.0,
+            child: new Icon(Icons.done),            
+            onPressed: (){
+
+
+            }
+          )
         ));
   }
+  bool iconButtonToggle = false;
+  int _loveValue = 0 ;
+
+  Widget _buildIconButton() {
+    return new Align(
+      alignment: const Alignment(-1.0, 0.0),
+      child: new Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          new Text("Love"),
+          new IconButton(
+            icon: const Icon(
+              Icons.favorite,
+              size: 16.0,
+              semanticLabel: 'love',
+            ),
+            onPressed: () {
+              setState(() {
+              //iconButtonToggle = !iconButtonToggle;
+              _loveValue = 1;
+            } );
+            },
+            color: _loveValue>0 ? Theme.of(context).primaryColor : null,
+          ),
+           new IconButton(
+            icon: const Icon(              
+              Icons.favorite,
+              size: 24.0,
+              semanticLabel: 'love',
+            ),
+            onPressed: () {
+              setState(() {
+              //iconButtonToggle = !iconButtonToggle;
+              _loveValue = 2;
+            } );
+            },
+            color: _loveValue>1 ? Theme.of(context).primaryColor : null,
+          ),
+          new IconButton(
+            icon: const Icon(
+              Icons.favorite,
+              size: 32.0,
+              semanticLabel: 'love',
+            ),
+            onPressed: () {
+              setState(() {
+              //iconButtonToggle = !iconButtonToggle;
+              _loveValue = 3;
+            } );
+            },
+            color: _loveValue>2 ? Theme.of(context).primaryColor : null,
+          ),
+          
+        ]
+        .map((Widget button) => new SizedBox(width: 64.0, height: 64.0, child: button))
+        .toList(),
+      ),
+    );
+  }
 }
+
 
 class Choice {
   const Choice({this.title});
