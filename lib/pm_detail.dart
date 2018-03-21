@@ -42,74 +42,87 @@ class PromiseDetailState extends State<PromiseDetailPage> {
   }
 
   Widget _buildDetail(item) {
-    return new Center(
+    return new SafeArea(
+        top: false,
+        bottom: false,
         child: new Column(
-      children: <Widget>[
-        _buildItem(item),
-        _buildPartnerRow(item),
-        new Padding(
-          padding: new EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
-          child: new Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[_buildTxList(), _buildAction()],
-          ),
-        )
-      ],
-    ));
+          children: <Widget>[
+            _buildItem(item),
+            new Expanded(
+                child: new ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                _buildPartnerRow(item),
+                new Padding(
+                  padding:
+                      const EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[_buildTxList(), _buildAction()],
+                  ),
+                )
+              ],
+            ))
+          ],
+        ));
   }
 
   _buildPartnerRow(Promise item) {
+    double _radius = 24.0;
     return new Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        _buildPartnerItem("Creator", item.creatorId),
+        //_buildPartnerItem("Creator", item.creatorId),
+        buildImage(item.creatorId, _radius),
         const Icon(
           Icons.arrow_forward,
-          size: 48.0,
+          size: 36.0,
         ),
-        _buildPartnerItem("From", item.promiseFromId),
-        const Icon(Icons.arrow_forward, size: 48.0),
-        _buildPartnerItem("To", item.promiseToId),
+        buildImage(item.promiseFromId, _radius),
+        //_buildPartnerItem("From", item.promiseFromId),
+        const Icon(Icons.arrow_forward, size: 36.0),
+        buildImage(item.promiseToId, _radius),
+        // _buildPartnerItem("To", item.promiseToId),
       ],
     );
   }
 
-  _buildPartnerItem(String partnerType, String partnerId) {
-    Icon icon = const Icon(Icons.person_pin, size: 64.0);
-    switch (partnerType) {
-      case "Creator":
-        icon = const Icon(
-          Icons.person_pin,
-          size: 64.0,
-          color: Colors.blue,
-        );
-        break;
-      case "From":
-        icon = const Icon(Icons.account_box, size: 64.0, color: Colors.red);
-        break;
-      case "To":
-        icon = const Icon(
-          Icons.account_circle,
-          size: 64.0,
-          color: Colors.green,
-        );
-        break;
-      default:
-    }
+  // _buildPartnerItem(String partnerType, String partnerId) {
+  //   Icon icon = const Icon(Icons.person_pin, size: 64.0);
+  //   switch (partnerType) {
+  //     case "Creator":
+  //       icon = const Icon(
+  //         Icons.person_pin,
+  //         size: 64.0,
+  //         color: Colors.blue,
+  //       );
+  //       break;
+  //     case "From":
+  //       icon = const Icon(Icons.account_box, size: 64.0, color: Colors.red);
+  //       break;
+  //     case "To":
+  //       icon = const Icon(
+  //         Icons.account_circle,
+  //         size: 64.0,
+  //         color: Colors.green,
+  //       );
+  //       break;
+  //     default:
+  //   }
 
-    return new Column(
-      children: <Widget>[
-        new Container(
-            margin: const EdgeInsets.all(10.0),
-            color: const Color(0xFFFFFF),
-            width: 64.0,
-            height: 64.0,
-            child: icon),
-        new Text(partnerId, style: _biggerFont),
-      ],
-    );
-  }
+  //   return new Column(
+  //     children: <Widget>[
+  //       new Container(
+  //           margin: const EdgeInsets.all(10.0),
+  //           color: const Color(0xFFFFFF),
+  //           width: 64.0,
+  //           height: 64.0,
+  //           child: icon),
+  //       new Text(partnerId, style: _biggerFont),
+  //     ],
+  //   );
+  // }
 
   Icon _getMood(Duration d) {
     if (d != null) {
@@ -126,7 +139,10 @@ class PromiseDetailState extends State<PromiseDetailPage> {
         );
       }
     } else {
-      return const Icon(Icons.sentiment_very_satisfied);
+      return const Icon(
+        Icons.sentiment_very_satisfied,
+        size: 36.0,
+      );
     }
   }
 
@@ -180,7 +196,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
                           const Icon(
-                            Icons.loyalty,
+                            Icons.favorite,
                             color: Colors.redAccent,
                           ),
                           new Text(
@@ -229,14 +245,13 @@ class PromiseDetailState extends State<PromiseDetailPage> {
               ],
             ),
           ),
-        
           new TextField(
               maxLines: 5,
               decoration: new InputDecoration(
                 hintText: 'Input your comments',
               )),
           new Padding(
-            padding: new EdgeInsets.symmetric(vertical: 20.0),
+            padding: new EdgeInsets.symmetric(vertical: 10.0),
           ),
           new RaisedButton(
             onPressed: _onPress,
@@ -247,12 +262,12 @@ class PromiseDetailState extends State<PromiseDetailPage> {
                   Icons.thumb_up,
                   color: Colors.white,
                 ),
-                new Text("   GOOD", style: _buttonTextFont)
+                new Text(" GOOD", style: _buttonTextFont)
               ],
             ),
           ),
           new Padding(
-            padding: new EdgeInsets.symmetric(vertical: 20.0),
+            padding: new EdgeInsets.symmetric(vertical: 10.0),
           ),
           new RaisedButton(
             onPressed: _onPress,
@@ -261,14 +276,14 @@ class PromiseDetailState extends State<PromiseDetailPage> {
               children: <Widget>[
                 new Icon(Icons.thumb_down, color: Colors.white),
                 new Text(
-                  "   BAD",
+                  " BAD",
                   style: _buttonTextFont,
                 )
               ],
             ),
           ),
           new Padding(
-            padding: new EdgeInsets.symmetric(vertical: 20.0),
+            padding: new EdgeInsets.symmetric(vertical: 10.0),
           ),
           new RaisedButton(
             onPressed: _onPress,
@@ -277,7 +292,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
               children: <Widget>[
                 new Icon(Icons.thumbs_up_down, color: Colors.white),
                 new Text(
-                  "   PASS",
+                  " PASS",
                   style: _buttonTextFont,
                 )
               ],
@@ -297,7 +312,8 @@ class PromiseDetailState extends State<PromiseDetailPage> {
     return new Expanded(
         flex: 2,
         child: new Container(
-            height: 420.0,
+            height: 300.0,
+            alignment: Alignment.bottomCenter,
             margin: const EdgeInsets.only(right: 15.0),
             padding: const EdgeInsets.all(5.0),
             decoration:
@@ -324,45 +340,53 @@ class EntryItem extends StatelessWidget {
 
   Widget _buildPHItem(PromiseHistory entry) {
     final _phTextFont = const TextStyle(fontSize: 14.0);
-    final _phTextFontStatus = const TextStyle(fontSize: 16.0, color: Colors.brown);
+    final _phTextFontStatus =
+        const TextStyle(fontSize: 14.0, color: Colors.brown);
     return new Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.end,
       //crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         new ListTile(
-          leading: new Column(            
-                children: <Widget>[
-                  new Icon(Icons.account_box,size: 48.0,color: Colors.blue,),
-                  new Text(entry.currentId, maxLines: 1,style: const TextStyle(fontSize: 12.0))
-                ]),
-          title: new Column(mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-               new Row(
-                children: <Widget>[
-                  new Icon(Icons.calendar_today,color:Colors.black87),
-                  new Expanded(child: new Text(" " + formatDate(entry.timestamp,"F"), style: _phTextFont,))
-                ],
-              ) ,
+            leading: new Column(children: <Widget>[
+              //new Icon(Icons.account_box,size: 48.0,color: Colors.blue,),
+              buildImage(entry.currentId, 20.0),
+              new Text(entry.currentId,
+                  maxLines: 1, style: const TextStyle(fontSize: 12.0))
+            ]),
+            title:
+                new Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
               new Row(
                 children: <Widget>[
-                  new Icon(Icons.assignment,color:Colors.brown),
-                  new Expanded(child: new Text(" " + entry.status, style: _phTextFontStatus,))
+                  new Icon(Icons.calendar_today, color: Colors.black87),
+                  new Expanded(
+                      child: new Text(
+                    " " + formatDate(entry.timestamp, "F"),
+                    style: _phTextFont,
+                  ))
                 ],
-              ) 
-          ]
-        )
-        ),
+              ),
+              new Row(
+                children: <Widget>[
+                  new Icon(Icons.assignment, color: Colors.brown),
+                  new Expanded(
+                      child: new Text(
+                    " " + entry.status,
+                    style: _phTextFontStatus,
+                  ))
+                ],
+              )
+            ])),
         // new Row(children: <Widget>[
-        //   new Container( 
-        //       width: 60.0,             
+        //   new Container(
+        //       width: 60.0,
         //       child: new Column(
         //         children: <Widget>[
         //           new Icon(Icons.account_box,size: 48.0,color: Colors.blue,),
         //           new Text(entry.currentId)
         //         ],
-        //       )),         
-        //   new Expanded( 
+        //       )),
+        //   new Expanded(
         //     child: new Column(mainAxisSize: MainAxisSize.max,
         //   children: <Widget>[
         //        new Row(
@@ -380,23 +404,27 @@ class EntryItem extends StatelessWidget {
         //   ],)
         //   )
         // ]),
-         new Padding(
-            padding: new EdgeInsets.symmetric(vertical: 5.0),
-          ),
+        new Padding(
+          padding: new EdgeInsets.symmetric(vertical: 5.0),
+        ),
         new Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-             new Padding(
+            new Padding(
               padding: new EdgeInsets.symmetric(horizontal: 5.0),
             ),
-            new Icon(Icons.email,color: Colors.black54,size: 18.0),
-            new Expanded(child: new Text(" " + entry.message, style: _phTextFont,))
+            new Icon(Icons.email, color: Colors.black54, size: 18.0),
+            new Expanded(
+                child: new Text(
+              " " + entry.message,
+              style: _phTextFont,
+            ))
           ],
         ),
         new Padding(
-            padding: new EdgeInsets.symmetric(vertical: 3.0),
-          ),
-        const Divider(height: 1.0,color: Colors.black87),
+          padding: new EdgeInsets.symmetric(vertical: 3.0),
+        ),
+        const Divider(height: 1.0, color: Colors.black87),
       ],
     );
   }

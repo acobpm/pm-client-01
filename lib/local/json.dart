@@ -1,9 +1,9 @@
 const localPMList = ''' [
     {
         "promiseId" : "101",
-        "creatorId" : "Vicky",
+        "creatorId" : "Vicki",
         "promiseFromId" : "Mason",
-        "promiseToId" : "Vicky",
+        "promiseToId" : "Vicki",
         "title" : "Wash dishes tonight!!!",
         "bonus" : 10.0,
         "loveRate" : 1,
@@ -14,7 +14,7 @@ const localPMList = ''' [
         "promiseId" : "102",
         "creatorId" : "Mason",
         "promiseFromId" : "Mason",
-        "promiseToId" : "Vicky",
+        "promiseToId" : "Vicki",
         "title" : "Mown the lawn!",
         "bonus" : 20.0,
         "loveRate" : 2,
@@ -23,8 +23,8 @@ const localPMList = ''' [
     },
     {
         "promiseId" : "103",
-        "creatorId" : "Vicky",
-        "promiseFromId" : "Vicky",
+        "creatorId" : "Vicki",
+        "promiseFromId" : "Vicki",
         "promiseToId" : "Mason",
         "title" : "Give Mason a 10 min back massage",
         "bonus" : 10.0,
@@ -37,7 +37,7 @@ const localPMList = ''' [
 const txDoneList = ''' [
     {
          "promiseId" : "101",
-         "currentId": "Vicky",
+         "currentId": "Vicki",
          "status":"New",
          "message":"It is your turn to wash dishes tonight!",
          "timestamp":"20180228T163000.000Z"        
@@ -51,14 +51,14 @@ const txDoneList = ''' [
     },
     {
          "promiseId" : "101",
-         "currentId" :"Vicky",
+         "currentId" :"Vicki",
          "status":"Negociating",
          "message":"No more execuses please",
          "timestamp":"20180228T165100.000Z"        
     },
      {
          "promiseId" : "101",
-         "currentId" :"Vicky",
+         "currentId" :"Mason",
          "status":"Fufilling",
          "message":"OK then , I will do it!",
          "timestamp":"20180228T165100.000Z"        

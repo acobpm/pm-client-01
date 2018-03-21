@@ -12,13 +12,15 @@ import 'pm_nav.dart';
 //import 'localization.dart';
 
 class PromiseListWidget extends StatefulWidget {
+  PromiseListWidget(this.currentUser);
   @override
-  createState() => new PromiseListState();
+  createState() => new PromiseListState(currentUser);
+  final String currentUser ; 
 }
 
 class PromiseListState extends State<PromiseListWidget> {
+  PromiseListState(this.userMe);
   final _biggerFont = const TextStyle(fontSize: 18.0);
-
 
   List<Promise> _pmList = <Promise>[];
   //new Promise(expireTime:new DateTime(2018,3,8,12,0,0),title: 'Wash dishes tonight!',bonus: 10.0, loveRate: 1, status: "Expired"),
@@ -35,9 +37,9 @@ class PromiseListState extends State<PromiseListWidget> {
       new GlobalKey<AnimatedListState>();
   final GlobalKey<AnimatedListState> _listKeyM =
       new GlobalKey<AnimatedListState>();
-  ListModel<Promise> _list,_list_h,_list_m;
+  ListModel<Promise> _list, _list_h, _list_m;
 
-  String _userMe = "Vicky" ; //current user
+  final String userMe; //current user
 
   @override
   void initState() {
@@ -53,102 +55,90 @@ class PromiseListState extends State<PromiseListWidget> {
       listKey: _listKey,
       initialItems: _pmList,
     );
-    final _mList = _pmList.where(
-      (p) => p.promiseFromId == _userMe 
-    ).toList();
-     _list_m = new ListModel<Promise>(
+    final _mList = _pmList.where((p) => p.promiseFromId == userMe).toList();
+    _list_m = new ListModel<Promise>(
       listKey: _listKeyM,
       initialItems: _mList,
     );
 
-    final _hList = _pmList.where(
-      (p) => p.promiseToId == _userMe 
-    ).toList();
-     _list_h = new ListModel<Promise>(
+    final _hList = _pmList.where((p) => p.promiseToId == userMe).toList();
+    _list_h = new ListModel<Promise>(
       listKey: _listKeyH,
       initialItems: _hList,
     );
-    
   }
 
   @override
   Widget build(BuildContext context) {
-    
     // final wordPair = new WordPair.random();
     // return new Text(wordPair.asPascalCase);
+    debugPrint("Current User: " + userMe);
     return new DefaultTabController(
         length: choices.length,
         child: new Scaffold(
-          appBar: new AppBar(
-            title: new Text("PM List"),
-            bottom: new TabBar(
-              isScrollable: true,
-              labelStyle: _biggerFont,
-              tabs: choices.map((Choice choice) {
-                return new Tab(
-                  text: choice.title,
-                  // icon: new Icon(choice.icon),
+            appBar: new AppBar(
+              title: new Text("PM List"),
+              bottom: new TabBar(
+                isScrollable: true,
+                labelStyle: _biggerFont,
+                tabs: choices.map((Choice choice) {
+                  return new Tab(
+                    text: choice.title,
+                    // icon: new Icon(choice.icon),
+                  );
+                }).toList(),
+              ),
+              // actions: <Widget>[
+              //   new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved),
+              // ],
+            ),
+            body: new TabBarView(
+              children: choices.map((Choice choice) {
+                var _filterList;
+                switch (choice.id) {
+                  case "M":
+                    _filterList = _list_m;
+
+                    break;
+                  case "H":
+                    _filterList = _list_h;
+                    break;
+                  default:
+                    _filterList = _list;
+                }
+
+                return new Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: new ChoiceCard(choice: choice, list: _filterList),
                 );
               }).toList(),
             ),
-            // actions: <Widget>[
-            //   new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved),
-            // ],
-          ),
-          body: new TabBarView(
-            children: choices.map((Choice choice) {
-              var _filterList ; 
-              switch (choice.id) {
-                case "M" :
-                  _filterList = _list_m;
-        
-                  
-                  break;
-                  case "H" :
-                  
-                  _filterList = _list_h;
-                  break;
-                default:
-                  _filterList = _list;
-
-              }
-
-              return new Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: new ChoiceCard(choice: choice, list: _filterList),
-              );
-            }).toList(),
-          ),
-          bottomNavigationBar: new PromiseNavBottom(0),
-          floatingActionButton: new FloatingActionButton(
-            elevation: 0.0,
-            child: new Icon(Icons.add),            
-            onPressed: (){
-
-                Navigator.push(
-              context,
-              new MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    new PromiseMePage(null),
-              ));
-
-            }
-          )
-        ));
+            bottomNavigationBar: new PromiseNavBottom(0),
+            floatingActionButton: new FloatingActionButton(
+                elevation: 0.0,
+                child: new Icon(Icons.add),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            new PromiseMePage(null),
+                      ));
+                })));
   }
 }
 
 class Choice {
-  const Choice({this.id,this.title});
+  const Choice({this.id, this.title});
   final String title;
   final String id;
   // final IconData icon;
 }
 
 const List<Choice> choices = const <Choice>[
-  const Choice(id:"A",title: 'ALL'),
-  const Choice(id:"M",title: 'My Promise'),
-  const Choice(id:"H",title: 'Her Promise'),
+  const Choice(id: "A", title: 'ALL'),
+  const Choice(id: "M", title: 'My Promise'),
+  const Choice(id: "H", title: 'Her Promise'),
 ];
 
 class ChoiceCard extends StatelessWidget {
@@ -291,7 +281,7 @@ class CardItem extends StatelessWidget {
                           mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
                             const Icon(
-                              Icons.loyalty,
+                              Icons.favorite,
                               color: Colors.redAccent,
                             ),
                             new Text(

@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:flutter/foundation.dart' show SynchronousFuture;
 import 'pm_list.dart';
+import 'pm_login.dart';
 import 'dart:async';
 
 //import 'testList.dart';
@@ -36,7 +37,8 @@ class PromiseMeApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home:
-            new PromiseListWidget() //new MyHomePage(title: 'Flutter Demo Home Page'),
+           // new PromiseListWidget() //new MyHomePage(title: 'Flutter Demo Home Page'),
+           new LoginWidget()
         );
   }
 }

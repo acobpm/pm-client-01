@@ -161,3 +161,22 @@ class _InputDropdown extends StatelessWidget {
     );
   }
 }
+  final imgMason = new Image.asset("img/Mason.jpg");
+  final imgVicki = new Image.asset("img/Vicki.jpg");
+  CircleAvatar buildImage(String name,double r){
+    var img ; 
+    switch (name) {
+      case "Vicki":
+        img= imgVicki;
+        break;
+      case "Mason":
+        img= imgMason;
+        break;
+      default:
+        img= imgMason;
+    }
+    return new CircleAvatar(
+      radius: r,
+      child:img,
+    );
+  }
