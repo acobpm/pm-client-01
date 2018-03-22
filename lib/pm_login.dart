@@ -9,7 +9,7 @@ class LoginWidget extends StatefulWidget {
 
 class LoginState extends State<LoginWidget> {
   final _biggerFont = const TextStyle(fontSize: 18.0);
-  String _loginUser = null;
+  String _loginUser ;
   String _userImg = "Default.jpg";
   final List<String> _loginUserList = <String>["Vicki", "Mason"];
   @override

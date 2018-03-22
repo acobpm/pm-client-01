@@ -23,5 +23,29 @@
     "description": "",
     "type": "text",
     "placeholders": {}
+  },
+  "pgListTitle": "查看承诺列表",
+  "@pgListTitle": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgListTabAll": "所有承诺",
+  "@pgListTabAll": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgListTabMy": "我的承诺",
+  "@pgListTabMy": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgListTabHis": "他的承诺",
+  "@pgListTabHis": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
   }
 }

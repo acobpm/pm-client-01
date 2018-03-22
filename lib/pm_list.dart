@@ -24,13 +24,6 @@ class PromiseListState extends State<PromiseListWidget> {
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   List<Promise> _pmList = <Promise>[];
-  //new Promise(expireTime:new DateTime(2018,3,8,12,0,0),title: 'Wash dishes tonight!',bonus: 10.0, loveRate: 1, status: "Expired"),
-  //new Promise(expireTime:new DateTime(2018,3,10,12,0,0),title: 'Mown the lawn!',bonus: 20.0, loveRate: 2, status: "Fufilling"),
-  //new Promise(expireTime:new DateTime(2018,3,15,12,0,0),title: 'Give Mason a 10 min back massage',bonus: 10.0, loveRate: 1, status: "Neg"),
-
-  // const Promise(title: 'My Promise'),
-  // const Promise(title: 'Her Promise'),
-  // ];
 
   final GlobalKey<AnimatedListState> _listKey =
       new GlobalKey<AnimatedListState>();
@@ -38,14 +31,17 @@ class PromiseListState extends State<PromiseListWidget> {
       new GlobalKey<AnimatedListState>();
   final GlobalKey<AnimatedListState> _listKeyM =
       new GlobalKey<AnimatedListState>();
-  ListModel<Promise> _list, _list_h, _list_m;
+  ListModel<Promise> _list, _listH, _listM;
 
   final String userMe; //current user
+
+  List<Choice> choices ;
+
 
   @override
   void initState() {
     super.initState();
-
+  
     final pmJsonList = toList(localPMList);
     for (var map in pmJsonList) {
       _pmList.add(new Promise.fromJson(map));
@@ -56,13 +52,13 @@ class PromiseListState extends State<PromiseListWidget> {
       initialItems: _pmList,
     );
     final _mList = _pmList.where((p) => p.promiseFromId == userMe).toList();
-    _list_m = new ListModel<Promise>(
+    _listM = new ListModel<Promise>(
       listKey: _listKeyM,
       initialItems: _mList,
     );
 
     final _hList = _pmList.where((p) => p.promiseToId == userMe).toList();
-    _list_h = new ListModel<Promise>(
+    _listH = new ListModel<Promise>(
       listKey: _listKeyH,
       initialItems: _hList,
     );
@@ -72,19 +68,24 @@ class PromiseListState extends State<PromiseListWidget> {
   Widget build(BuildContext context) {
     // final wordPair = new WordPair.random();
     // return new Text(wordPair.asPascalCase);
+    
+  choices= new List <Choice>();
+  choices.add( new Choice(id: "A", title: PMLocalizations.of(context).pgListTabAll ));
+  choices.add( new Choice(id: "M", title: PMLocalizations.of(context).pgListTabMy ));
+  choices.add( new Choice(id: "H", title: PMLocalizations.of(context).pgListTabHis ));
+
     debugPrint("Current User: " + userMe);
     return new DefaultTabController(
         length: choices.length,
         child: new Scaffold(
             appBar: new AppBar(
-              title: new Text("PM List"),
+              title: new Text(PMLocalizations.of(context).pgListTitle),
               bottom: new TabBar(
                 isScrollable: true,
                 labelStyle: _biggerFont,
                 tabs: choices.map((Choice choice) {
                   return new Tab(
-                    text: choice.title,
-                    // icon: new Icon(choice.icon),
+                    text: choice.title,                    
                   );
                 }).toList(),
               ),
@@ -97,11 +98,11 @@ class PromiseListState extends State<PromiseListWidget> {
                 var _filterList;
                 switch (choice.id) {
                   case "M":
-                    _filterList = _list_m;
+                    _filterList = _listM;
 
                     break;
                   case "H":
-                    _filterList = _list_h;
+                    _filterList = _listH;
                     break;
                   default:
                     _filterList = _list;
@@ -135,11 +136,6 @@ class Choice {
   // final IconData icon;
 }
 
-const List<Choice> choices = const <Choice>[
-  const Choice(id: "A", title: 'ALL'),
-  const Choice(id: "M", title: 'My Promise'),
-  const Choice(id: "H", title: 'Her Promise'),
-];
 
 class ChoiceCard extends StatelessWidget {
   const ChoiceCard({Key key, this.choice, this.list}) : super(key: key);

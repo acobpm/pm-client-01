@@ -18,7 +18,11 @@ class MessageLookup extends MessageLookupByLibrary {
   get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function> {
+  static _notInlinedMessages(_) => <String, Function> { 
+    "pgListTabAll" : MessageLookupByLibrary.simpleMessage("ALL"),
+    "pgListTabHis" : MessageLookupByLibrary.simpleMessage("His Promise"),
+    "pgListTabMy" : MessageLookupByLibrary.simpleMessage("My Promise"),
+    "pgListTitle" : MessageLookupByLibrary.simpleMessage("Promise List"),
     "pgLoginBtnLogin" : MessageLookupByLibrary.simpleMessage("Login"),
     "pgLoginTitle" : MessageLookupByLibrary.simpleMessage("Welcome to Promise Me"),
     "pgLoginTxtSelectUser" : MessageLookupByLibrary.simpleMessage("Select User to Login"),

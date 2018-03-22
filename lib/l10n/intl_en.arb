@@ -23,5 +23,30 @@
     "description": "",
     "type": "text",
     "placeholders": {}
+  },
+  "pgListTitle": "Promise List",
+  "@pgListTitle": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgListTabAll": "ALL",
+  "@pgListTabAll": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgListTabMy": "My Promise",
+  "@pgListTabMy": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgListTabHis": "His Promise",
+  "@pgListTabHis": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
   }
+
 }

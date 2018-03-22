@@ -6,14 +6,13 @@ import 'package:intl/intl.dart';
 //import 'dart:async';
 import 'package:pm_client_01/l10n/messages_all.dart';
 
-
 class PMLocalizations {
-  
   static Future<PMLocalizations> load(Locale locale) {
     debugPrint("Locale " + locale.toString());
-    final String name = locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
+    final String name =
+        locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
     final String localeName = Intl.canonicalizedLocale(name);
-    return initializeMessages(localeName).then((bool  _) {
+    return initializeMessages(localeName).then((bool _) {
       Intl.defaultLocale = localeName;
       return new PMLocalizations();
     });
@@ -30,6 +29,7 @@ class PMLocalizations {
       desc: 'Title for the Demo application',
     );
   }
+
   String get pgLoginTitle {
     return Intl.message(
       'Welcome to Promise Me',
@@ -37,22 +37,51 @@ class PMLocalizations {
       desc: 'title ',
     );
   }
-   String get pgLoginTxtSelectUser {
+
+  String get pgLoginTxtSelectUser {
     return Intl.message(
       'Select User to Login',
       name: 'pgLoginTxtSelectUser',
       desc: '',
     );
-   }
-    String get pgLoginBtnLogin {
+  }
+
+  String get pgLoginBtnLogin {
     return Intl.message(
       'Login',
       name: 'pgLoginBtnLogin',
       desc: '',
-    );    
+    );
+  }
+  String get pgListTitle {
+    return Intl.message(
+      'Promise List',
+      name: 'pgListTitle',
+      desc: '',
+    );
+  }
+  String get pgListTabAll {
+    return Intl.message(
+      'ALL',
+      name: 'pgListTabAll',
+      desc: '',
+    );
+  }
+   String get pgListTabMy {
+    return Intl.message(
+      'My Promise',
+      name: 'pgListTabMy',
+      desc: '',
+    );
+  }
+   String get pgListTabHis {
+    return Intl.message(
+      'His Promise',
+      name: 'pgListTabHis',
+      desc: '',
+    );
   }
 }
-
 
 class PMLocalizationsDelegate extends LocalizationsDelegate<PMLocalizations> {
   const PMLocalizationsDelegate();
@@ -71,4 +100,3 @@ class PMLocalizationsDelegate extends LocalizationsDelegate<PMLocalizations> {
   @override
   bool shouldReload(PMLocalizationsDelegate old) => false;
 }
-

@@ -15,10 +15,14 @@ final _keepAnalysisHappy = Intl.defaultLocale;
 typedef MessageIfAbsent(String message_str, List args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  get localeName => 'zh';
+  get localeName => 'zh'; 
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "pgListTabAll" : MessageLookupByLibrary.simpleMessage("所有承诺"),
+    "pgListTabHis" : MessageLookupByLibrary.simpleMessage("他的承诺"),
+    "pgListTabMy" : MessageLookupByLibrary.simpleMessage("我的承诺"),
+    "pgListTitle" : MessageLookupByLibrary.simpleMessage("查看承诺列表"),
     "pgLoginBtnLogin" : MessageLookupByLibrary.simpleMessage("登录"),
     "pgLoginTitle" : MessageLookupByLibrary.simpleMessage("欢迎使用 答应我 App"),
     "pgLoginTxtSelectUser" : MessageLookupByLibrary.simpleMessage("请选择要登录的用户:"),
