@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/foundation.dart' show SynchronousFuture;
 import 'pm_list.dart';
 import 'pm_login.dart';
 import 'dart:async';
+import 'localization.dart';
+import 'package:pm_client_01/l10n/messages_all.dart';
 
 //import 'testList.dart';
 void main() => runApp(new PromiseMeApp());
@@ -16,8 +19,10 @@ class PromiseMeApp extends StatelessWidget {
     return new MaterialApp(
         localizationsDelegates: [
           // ... app-specific localization delegate[s] here
+          const PMLocalizationsDelegate(),
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
+          
         ],
         supportedLocales: [
           const Locale('en', 'US'), // English
@@ -39,6 +44,7 @@ class PromiseMeApp extends StatelessWidget {
         home:
            // new PromiseListWidget() //new MyHomePage(title: 'Flutter Demo Home Page'),
            new LoginWidget()
+          // new DemoApp()
         );
   }
 }
@@ -128,39 +134,65 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class DemoLocalizations {
-  DemoLocalizations(this.locale);
-
-  final Locale locale;
+  
+  static Future<DemoLocalizations> load(Locale locale) {
+    debugPrint("Locale " + locale.toString());
+    final String name = locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
+    final String localeName = Intl.canonicalizedLocale(name);
+    return initializeMessages(localeName).then((bool  _) {
+      Intl.defaultLocale = localeName;
+      return new DemoLocalizations();
+    });
+  }
 
   static DemoLocalizations of(BuildContext context) {
     return Localizations.of<DemoLocalizations>(context, DemoLocalizations);
   }
 
-  static Map<String, Map<String, String>> _localizedValues = {
-    'en': {
-      'title': 'Hello World',
-    },
-    'es': {
-      'title': 'Hola Mundo',
-    },
-  };
-
   String get title {
-    return _localizedValues[locale.languageCode]['title'];
+    return Intl.message(
+      'hi',
+      name: 'title',
+      desc: 'Title for the Demo application',
+    );
   }
 }
+// class DemoLocalizations {
+//   DemoLocalizations(this.locale);
+
+//   final Locale locale;
+
+
+//   static DemoLocalizations of(BuildContext context) {
+//     return Localizations.of<DemoLocalizations>(context, DemoLocalizations);
+//   }
+
+//   static Map<String, Map<String, String>> _localizedValues = {
+//     'en': {
+//       'title': 'Hello World',
+//     },
+//     'es': {
+//       'title': 'Hola Mundo',
+//     },
+//   };
+
+//   String get title {
+//     return _localizedValues[locale.languageCode]['title'];
+//   }
+// }
 
 class DemoLocalizationsDelegate extends LocalizationsDelegate<DemoLocalizations> {
   const DemoLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => ['en', 'es'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => ['en', 'zh'].contains(locale.languageCode);
 
   @override
   Future<DemoLocalizations> load(Locale locale) {
     // Returning a SynchronousFuture here because an async "load" operation
     // isn't needed to produce an instance of DemoLocalizations.
-    return new SynchronousFuture<DemoLocalizations>(new DemoLocalizations(locale));
+    //return new SynchronousFuture<DemoLocalizations>(new DemoLocalizations(locale));
+    return DemoLocalizations.load(locale);
   }
 
   @override
@@ -170,13 +202,15 @@ class DemoLocalizationsDelegate extends LocalizationsDelegate<DemoLocalizations>
 class DemoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(DemoLocalizations.of(context).title),
+        title: new Text(PMLocalizations.of(context).title),
       ),
       body: new Center(
-        child: new Text(DemoLocalizations.of(context).title),
+        child: new Text(PMLocalizations.of(context).title),
       ),
     );
   }
 }
+

@@ -1,43 +1,74 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/foundation.dart' show SynchronousFuture;
-class DemoLocalizations {
-  DemoLocalizations(this.locale);
+//import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
+//import 'dart:async';
+import 'package:pm_client_01/l10n/messages_all.dart';
+
+
+class PMLocalizations {
   
-  final Locale locale;
-  static DemoLocalizations of(BuildContext context) {
-    return Localizations.of<DemoLocalizations>(context, DemoLocalizations);
+  static Future<PMLocalizations> load(Locale locale) {
+    debugPrint("Locale " + locale.toString());
+    final String name = locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
+    final String localeName = Intl.canonicalizedLocale(name);
+    return initializeMessages(localeName).then((bool  _) {
+      Intl.defaultLocale = localeName;
+      return new PMLocalizations();
+    });
   }
-  static Map<String, Map<String, String>> _localizedValues = {
-    'en': {
-      'title': 'App title',
-      'googleLogin': 'Login with Google'
-    },
-    'es': {
-      'title': 'Título de App',
-      'googleLogin': 'Conectar con Google'
-    },
-  };
+
+  static PMLocalizations of(BuildContext context) {
+    return Localizations.of<PMLocalizations>(context, PMLocalizations);
+  }
+
   String get title {
-    print ("language code" + locale.languageCode);
-    return _localizedValues[locale.languageCode]['title'];
+    return Intl.message(
+      'hi',
+      name: 'title',
+      desc: 'Title for the Demo application',
+    );
   }
-  String get googleLogin {
-    return _localizedValues[locale.languageCode]['googleLogin'];
-  } 
+  String get pgLoginTitle {
+    return Intl.message(
+      'Welcome to Promise Me',
+      name: 'pgLoginTitle',
+      desc: 'title ',
+    );
+  }
+   String get pgLoginTxtSelectUser {
+    return Intl.message(
+      'Select User to Login',
+      name: 'pgLoginTxtSelectUser',
+      desc: '',
+    );
+   }
+    String get pgLoginBtnLogin {
+    return Intl.message(
+      'Login',
+      name: 'pgLoginBtnLogin',
+      desc: '',
+    );    
+  }
 }
-class DemoLocalizationsDelegate extends LocalizationsDelegate<DemoLocalizations> {
-  const DemoLocalizationsDelegate();
-  @override
-  bool isSupported(Locale locale) => ['en', 'es'].contains(locale.languageCode);
+
+
+class PMLocalizationsDelegate extends LocalizationsDelegate<PMLocalizations> {
+  const PMLocalizationsDelegate();
 
   @override
-  Future<DemoLocalizations> load(Locale locale) {
-    // Returning a SynchronousFuture here because an async "load" operation
-    // isn't needed to produce an instance of DemoLocalizations.
-    return new SynchronousFuture<DemoLocalizations>(new DemoLocalizations(locale));
-  }
+  bool isSupported(Locale locale) => ['en', 'zh'].contains(locale.languageCode);
+
   @override
-  bool shouldReload(DemoLocalizationsDelegate old) => false;
+  Future<PMLocalizations> load(Locale locale) {
+    // Returning a SynchronousFuture here because an async "load" operation
+    // isn't needed to produce an instance of PMLocalizations.
+    //return new SynchronousFuture<PMLocalizations>(new PMLocalizations(locale));
+    return PMLocalizations.load(locale);
+  }
+
+  @override
+  bool shouldReload(PMLocalizationsDelegate old) => false;
 }
+

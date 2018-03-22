@@ -1,0 +1,27 @@
+{
+  "@@last_modified": "2018-03-22T16:18:17.177988",
+  "title": "hi",
+  "@title": {
+    "description": "Title for the Demo application",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgLoginTitle": "Welcome to Promise Me",
+  "@pgLoginTitle": {
+    "description": "title ",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgLoginTxtSelectUser": "Select User to Login",
+  "@pgLoginTxtSelectUser": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgLoginBtnLogin": "Login",
+  "@pgLoginBtnLogin": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  }
+}

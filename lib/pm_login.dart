@@ -1,7 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'pm_list.dart';
-import 'util.dart';
+import 'localization.dart';
 
 class LoginWidget extends StatefulWidget {
   @override
@@ -17,7 +16,7 @@ class LoginState extends State<LoginWidget> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('Welcome to Promise Me'),
+          title: new Text(PMLocalizations.of(context).pgLoginTitle),
           actions: <Widget>[
             //new IconButton(icon: new Icon(Icons.list), onPressed: ),
           ],
@@ -27,7 +26,7 @@ class LoginState extends State<LoginWidget> {
           children: <Widget>[
             new Center(
               child: new Text(
-                "Select User to Login ",
+                PMLocalizations.of(context).pgLoginTxtSelectUser,
                 style: _biggerFont,
               ),
             ),
@@ -60,7 +59,7 @@ class LoginState extends State<LoginWidget> {
             ),
             new Center(
               child: new RaisedButton(
-                child: new Text("Login"),
+                child: new Text(PMLocalizations.of(context).pgLoginBtnLogin),
                 onPressed: () {
                   if (_loginUser != null) {
                     Navigator.push(

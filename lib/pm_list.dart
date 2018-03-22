@@ -8,6 +8,7 @@ import 'util.dart';
 import 'pm_detail.dart';
 import 'pm_new.dart';
 import 'pm_nav.dart';
+import 'localization.dart';
 
 //import 'localization.dart';
 
@@ -45,7 +46,6 @@ class PromiseListState extends State<PromiseListWidget> {
   void initState() {
     super.initState();
 
-    debugPrint("###### setup list#########");
     final pmJsonList = toList(localPMList);
     for (var map in pmJsonList) {
       _pmList.add(new Promise.fromJson(map));
