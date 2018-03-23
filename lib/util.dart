@@ -8,7 +8,7 @@ import 'dart:async';
 
 //import 'dart:io';
 
-final _dateFormatFull = new DateFormat('dd/MM/yyyy hh:mm:ss');
+final _dateFormatFull = new DateFormat('dd/MM/yyyy HH:mm:ss');
 
 String formatDate(DateTime dt,String type){
   if (dt ==null){
