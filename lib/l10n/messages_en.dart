@@ -18,7 +18,13 @@ class MessageLookup extends MessageLookupByLibrary {
   get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function> { 
+  static _notInlinedMessages(_) => <String, Function> {
+    "pgDetailBtnBad" : MessageLookupByLibrary.simpleMessage("BAD"),
+    "pgDetailBtnGood" : MessageLookupByLibrary.simpleMessage("GOOD"),
+    "pgDetailBtnPass" : MessageLookupByLibrary.simpleMessage("PASS"),
+    "pgDetailTitle" : MessageLookupByLibrary.simpleMessage("Promise Detail"),
+    "pgDetailTxtCommentHint" : MessageLookupByLibrary.simpleMessage("Please input your comments"),
+    "pgDetailTxtComments" : MessageLookupByLibrary.simpleMessage("Comments"),
     "pgListTabAll" : MessageLookupByLibrary.simpleMessage("ALL"),
     "pgListTabHis" : MessageLookupByLibrary.simpleMessage("His Promise"),
     "pgListTabMy" : MessageLookupByLibrary.simpleMessage("My Promise"),
@@ -26,6 +32,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "pgLoginBtnLogin" : MessageLookupByLibrary.simpleMessage("Login"),
     "pgLoginTitle" : MessageLookupByLibrary.simpleMessage("Welcome to Promise Me"),
     "pgLoginTxtSelectUser" : MessageLookupByLibrary.simpleMessage("Select User to Login"),
+    "pgNavPromise" : MessageLookupByLibrary.simpleMessage("Promise"),
+    "pgNavStat" : MessageLookupByLibrary.simpleMessage("Stat"),
+    "pgNavWallet" : MessageLookupByLibrary.simpleMessage("Wallet"),
+    "pgNewInputBonus" : MessageLookupByLibrary.simpleMessage("Bonus"),
+    "pgNewInputBonusHint" : MessageLookupByLibrary.simpleMessage("Select Bonus"),
+    "pgNewInputComments" : MessageLookupByLibrary.simpleMessage("Comments"),
+    "pgNewInputExpireDate" : MessageLookupByLibrary.simpleMessage("Expire Date"),
+    "pgNewInputPromise" : MessageLookupByLibrary.simpleMessage("Promise"),
+    "pgNewTabGive" : MessageLookupByLibrary.simpleMessage("Give"),
+    "pgNewTabRequest" : MessageLookupByLibrary.simpleMessage("Request"),
+    "pgNewTitle" : MessageLookupByLibrary.simpleMessage("New Promise"),
+    "pgNewTxtLove" : MessageLookupByLibrary.simpleMessage("Love"),
     "title" : MessageLookupByLibrary.simpleMessage("hi")
   };
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'model/data.dart';
 import 'util.dart';
 import 'pm_nav.dart';
+import 'localization.dart';
 
 class PromiseMePage extends StatefulWidget {
   PromiseMePage(this.promise);
@@ -16,6 +17,9 @@ class PromiseMePage extends StatefulWidget {
 class PromiseMeState extends State<PromiseMePage> {
   PromiseMeState(this.item);
   final Promise item;
+
+ List<Choice> choices ;
+
 
   final _biggerFont = const TextStyle(fontSize: 18.0);
   final _textFont = const TextStyle(fontSize: 16.0);
@@ -33,13 +37,16 @@ class PromiseMeState extends State<PromiseMePage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+  choices = new List<Choice> ();
+  choices.add( new Choice(title: PMLocalizations.of(context).pgNewTabGive ));
+  choices.add( new Choice(title: PMLocalizations.of(context).pgNewTabRequest ));
+  
 
     return new DefaultTabController(
         length: choices.length,
         child: new Scaffold(
           appBar: new AppBar(
-            title: new Text('Promise Me'),
+            title: new Text(PMLocalizations.of(context).pgNewTitle),
             actions: <Widget>[
               //new IconButton(icon: new Icon(Icons.list), onPressed: ),
             ],
@@ -66,8 +73,8 @@ class PromiseMeState extends State<PromiseMePage> {
                       padding: const EdgeInsets.all(16.0),
                       children: <Widget>[
                         new TextField(
-                            decoration: const InputDecoration(
-                              labelText: 'Promise',
+                            decoration: new InputDecoration(
+                              labelText: PMLocalizations.of(context).pgNewInputPromise,
                             ),
                             style: Theme
                                 .of(context)
@@ -75,7 +82,7 @@ class PromiseMeState extends State<PromiseMePage> {
                                 .display1
                                 .copyWith(fontSize: 24.0)),
                         new DateTimePicker(
-                          labelText: 'Expire Date',
+                          labelText: PMLocalizations.of(context).pgNewInputExpireDate,
                           selectedDate: _fromDate,
                           selectedTime: _fromTime,
                           selectDate: (DateTime date) {
@@ -90,9 +97,9 @@ class PromiseMeState extends State<PromiseMePage> {
                           },
                         ),
                         new InputDecorator(
-                          decoration: const InputDecoration(
-                            labelText: 'Bonus',
-                            hintText: 'Select Bonus',
+                          decoration: new InputDecoration(
+                            labelText: PMLocalizations.of(context).pgNewInputBonus,
+                            hintText: PMLocalizations.of(context).pgNewInputBonusHint,
                           ),
                           isEmpty: _selBonus == null,
                           child: new DropdownButton<String>(
@@ -112,10 +119,10 @@ class PromiseMeState extends State<PromiseMePage> {
                           ),
                         ),
                         
-                        _buildIconButton(),
+                        _buildIconButton(context),
                         new TextField(
-                          decoration: const InputDecoration(
-                            labelText: 'comments',
+                          decoration: new InputDecoration(
+                            labelText: PMLocalizations.of(context).pgNewInputComments,
                           ),
                           style: Theme
                               .of(context)
@@ -144,7 +151,7 @@ class PromiseMeState extends State<PromiseMePage> {
   bool iconButtonToggle = false;
   int _loveValue = 0 ;
 
-  Widget _buildIconButton() {
+  Widget _buildIconButton(BuildContext context) {
     return new Align(
       alignment: const Alignment(-1.0, 0.0),
       child: new Row(
@@ -152,7 +159,7 @@ class PromiseMeState extends State<PromiseMePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          new Text("Love"),
+          new Text(PMLocalizations.of(context).pgNewTxtLove),
           new IconButton(
             icon: const Icon(
               Icons.favorite,
@@ -211,57 +218,53 @@ class Choice {
   // final IconData icon;
 }
 
-const List<Choice> choices = const <Choice>[
-  const Choice(title: 'Give'),
-  const Choice(title: 'Request'),
-];
 
-class ChoiceCard extends StatelessWidget {
-  const ChoiceCard({Key key, this.choice}) : super(key: key);
+// class ChoiceCard extends StatelessWidget {
+//   const ChoiceCard({Key key, this.choice}) : super(key: key);
 
-  final Choice choice;
+//   final Choice choice;
 
-  Widget _buildDetail(BuildContext context, Promise item) {
-    return new Column(children: <Widget>[
-      new ListTile(
-        leading: const Icon(Icons.add_box),
-        title: new TextField(
-          maxLines: 3,
-          decoration: new InputDecoration(
-            border: new OutlineInputBorder().copyWith(),
-            hintText: "Promise",
-          ),
-        ),
-      ),
-      new Padding(
-        padding: new EdgeInsets.symmetric(vertical: 10.0),
-        child: new Divider(
-          height: 1.0,
-        ),
-      ),
-      new ListTile(
-        leading: const Icon(Icons.date_range),
-        title: new TextField(
-          maxLines: 2,
-          decoration: new InputDecoration(
-            hintText: "Expire Date",
-          ),
-        ),
-      ),
-    ]);
-  }
+//   Widget _buildDetail(BuildContext context, Promise item) {
+//     return new Column(children: <Widget>[
+//       new ListTile(
+//         leading: const Icon(Icons.add_box),
+//         title: new TextField(
+//           maxLines: 3,
+//           decoration: new InputDecoration(
+//             border: new OutlineInputBorder().copyWith(),
+//             hintText:  PMLocalizations.of(context).pgNewInputPromiseHint,
+//           ),
+//         ),
+//       ),
+//       new Padding(
+//         padding: new EdgeInsets.symmetric(vertical: 10.0),
+//         child: new Divider(
+//           height: 1.0,
+//         ),
+//       ),
+//       new ListTile(
+//         leading: const Icon(Icons.date_range),
+//         title: new TextField(
+//           maxLines: 2,
+//           decoration: new InputDecoration(
+//             hintText: "Expire Date",
+//           ),
+//         ),
+//       ),
+//     ]);
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    // final wordPair = new WordPair.random();
-    // return new Text(wordPair.asPascalCase);
-    return new Card(
-        // body: _buildList(),
-        child: new Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[_buildDetail(context, null)],
-    ));
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     // final wordPair = new WordPair.random();
+//     // return new Text(wordPair.asPascalCase);
+//     return new Card(
+//         // body: _buildList(),
+//         child: new Column(
+//       mainAxisAlignment: MainAxisAlignment.start,
+//       children: <Widget>[_buildDetail(context, null)],
+//     ));
+//   }
 
-//}
-}
+// //}
+// }

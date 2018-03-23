@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2018-03-22T22:45:55.345156",
+  "@@last_modified": "2018-03-23T00:39:02.079061",
   "title": "hi",
   "@title": {
     "description": "Title for the Demo application",
@@ -44,6 +44,114 @@
   },
   "pgListTabHis": "His Promise",
   "@pgListTabHis": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNavPromise": "Promise",
+  "@pgNavPromise": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNavWallet": "Wallet",
+  "@pgNavWallet": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNavStat": "Stat",
+  "@pgNavStat": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailTitle": "Promise Detail",
+  "@pgDetailTitle": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailTxtComments": "Comments",
+  "@pgDetailTxtComments": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailTxtCommentHint": "Please input your comments",
+  "@pgDetailTxtCommentHint": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnGood": "GOOD",
+  "@pgDetailBtnGood": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnBad": "BAD",
+  "@pgDetailBtnBad": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnPass": "PASS",
+  "@pgDetailBtnPass": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewTitle": "New Promise",
+  "@pgNewTitle": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewInputPromise": "Promise",
+  "@pgNewInputPromise": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewInputExpireDate": "Expire Date",
+  "@pgNewInputExpireDate": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewInputBonus": "Bonus",
+  "@pgNewInputBonus": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewInputBonusHint": "Select Bonus",
+  "@pgNewInputBonusHint": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewInputComments": "Comments",
+  "@pgNewInputComments": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewTxtLove": "Love",
+  "@pgNewTxtLove": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewTabGive": "Give",
+  "@pgNewTabGive": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewTabRequest": "Request",
+  "@pgNewTabRequest": {
     "description": "",
     "type": "text",
     "placeholders": {}

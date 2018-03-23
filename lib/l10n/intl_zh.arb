@@ -47,5 +47,113 @@
     "description": "",
     "type": "text",
     "placeholders": {}
+  },
+  "pgNavPromise": "承诺",
+  "@pgNavPromise": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNavWallet": "钱包",
+  "@pgNavWallet": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNavStat": "状态",
+  "@pgNavStat": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailTitle": "承诺详情",
+  "@pgDetailTitle": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailTxtComments": "评价",
+  "@pgDetailTxtComments": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailTxtCommentHint": "写点什么...",
+  "@pgDetailTxtCommentHint": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnGood": "接受",
+  "@pgDetailBtnGood": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnBad": "拒绝",
+  "@pgDetailBtnBad": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnPass": "算了",
+  "@pgDetailBtnPass": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewTitle": "新承诺",
+  "@pgNewTitle": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewInputPromise": "承诺",
+  "@pgNewInputPromise": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewInputExpireDate": "有效期",
+  "@pgNewInputExpireDate": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewInputBonus": "奖赏",
+  "@pgNewInputBonus": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewInputBonusHint": "请选择奖赏",
+  "@pgNewInputBonusHint": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewInputComments": "备注",
+  "@pgNewInputComments": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewTxtLove": "爱心",
+  "@pgNewTxtLove": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewTabGive": "慷慨给予",
+  "@pgNewTabGive": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgNewTabRequest": "大胆要求",
+  "@pgNewTabRequest": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
   }
 }

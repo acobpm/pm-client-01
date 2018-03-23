@@ -136,9 +136,10 @@ class _MyHomePageState extends State<MyHomePage> {
 class DemoLocalizations {
   
   static Future<DemoLocalizations> load(Locale locale) {
-    debugPrint("Locale " + locale.toString());
+    
     final String name = locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
     final String localeName = Intl.canonicalizedLocale(name);
+    debugPrint("Locale " + localeName);
     return initializeMessages(localeName).then((bool  _) {
       Intl.defaultLocale = localeName;
       return new DemoLocalizations();

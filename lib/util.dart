@@ -97,7 +97,7 @@ class DateTimePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle valueStyle = Theme.of(context).textTheme.title;
+    final TextStyle valueStyle = Theme.of(context).textTheme.title.copyWith(fontSize: 16.0);
     return new Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[

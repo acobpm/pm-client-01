@@ -4,6 +4,7 @@ import 'model/data.dart';
 import 'util.dart';
 import 'local/json.dart';
 import 'pm_nav.dart';
+import 'localization.dart';
 
 class PromiseDetailPage extends StatefulWidget {
   PromiseDetailPage(this.promise);
@@ -31,7 +32,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Promise Detail'),
+        title: new Text(PMLocalizations.of(context).pgDetailTitle),
         actions: <Widget>[
           //new IconButton(icon: new Icon(Icons.list), onPressed: ),
         ],
@@ -59,7 +60,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[_buildTxList(), _buildAction()],
+                    children: <Widget>[_buildTxList(context), _buildAction(context)],
                   ),
                 )
               ],
@@ -226,7 +227,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
     );
   }
 
-  _buildAction() {
+  _buildAction(BuildContext context) {
     return new Flexible(
         child: new Container(
       width: 180.0,
@@ -241,14 +242,14 @@ class PromiseDetailState extends State<PromiseDetailPage> {
                   Icons.email,
                   color: Colors.brown,
                 ),
-                new Text(" Comments", style: _textFont),
+                new Text(" "+PMLocalizations.of(context).pgDetailTxtComments, style: _textFont),
               ],
             ),
           ),
           new TextField(
               maxLines: 5,
               decoration: new InputDecoration(
-                hintText: 'Input your comments',
+                hintText: PMLocalizations.of(context).pgDetailTxtCommentHint,
               )),
           new Padding(
             padding: new EdgeInsets.symmetric(vertical: 10.0),
@@ -262,7 +263,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
                   Icons.thumb_up,
                   color: Colors.white,
                 ),
-                new Text(" GOOD", style: _buttonTextFont)
+                new Text(" "+PMLocalizations.of(context).pgDetailBtnGood, style: _buttonTextFont)
               ],
             ),
           ),
@@ -276,7 +277,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
               children: <Widget>[
                 new Icon(Icons.thumb_down, color: Colors.white),
                 new Text(
-                  " BAD",
+                  " "+PMLocalizations.of(context).pgDetailBtnBad,
                   style: _buttonTextFont,
                 )
               ],
@@ -292,7 +293,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
               children: <Widget>[
                 new Icon(Icons.thumbs_up_down, color: Colors.white),
                 new Text(
-                  " PASS",
+                  " "+PMLocalizations.of(context).pgDetailBtnPass,
                   style: _buttonTextFont,
                 )
               ],
@@ -303,7 +304,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
     ));
   }
 
-  _buildTxList() {
+  _buildTxList(BuildContext context) {
     List<PromiseHistory> list = <PromiseHistory>[];
     final pmHisJsonList = toList(txDoneList).reversed; // from json.dart
     for (var map in pmHisJsonList) {
@@ -377,33 +378,7 @@ class EntryItem extends StatelessWidget {
                 ],
               )
             ])),
-        // new Row(children: <Widget>[
-        //   new Container(
-        //       width: 60.0,
-        //       child: new Column(
-        //         children: <Widget>[
-        //           new Icon(Icons.account_box,size: 48.0,color: Colors.blue,),
-        //           new Text(entry.currentId)
-        //         ],
-        //       )),
-        //   new Expanded(
-        //     child: new Column(mainAxisSize: MainAxisSize.max,
-        //   children: <Widget>[
-        //        new Row(
-        //         children: <Widget>[
-        //           new Icon(Icons.calendar_today,color:Colors.black87),
-        //           new Expanded(child: new Text(" " + formatDate(entry.timestamp,"F"), style: _phTextFont,))
-        //         ],
-        //       ) ,
-        //       new Row(
-        //         children: <Widget>[
-        //           new Icon(Icons.assignment,color:Colors.brown),
-        //           new Expanded(child: new Text(" " + entry.status, style: _phTextFontStatus,))
-        //         ],
-        //       ) ,
-        //   ],)
-        //   )
-        // ]),
+        
         new Padding(
           padding: new EdgeInsets.symmetric(vertical: 5.0),
         ),
