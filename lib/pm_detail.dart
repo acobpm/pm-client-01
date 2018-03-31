@@ -4,6 +4,7 @@ import 'model/data.dart';
 import 'util.dart';
 import 'local/json.dart';
 import 'pm_nav.dart';
+import 'pm_widget.dart';
 import 'localization.dart';
 
 class PromiseDetailPage extends StatefulWidget {
@@ -28,7 +29,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    print("Detail : " + item.title);
+    print("Detail : " + item.brief);
 
     return new Scaffold(
       appBar: new AppBar(
@@ -89,141 +90,15 @@ class PromiseDetailState extends State<PromiseDetailPage> {
     );
   }
 
-  // _buildPartnerItem(String partnerType, String partnerId) {
-  //   Icon icon = const Icon(Icons.person_pin, size: 64.0);
-  //   switch (partnerType) {
-  //     case "Creator":
-  //       icon = const Icon(
-  //         Icons.person_pin,
-  //         size: 64.0,
-  //         color: Colors.blue,
-  //       );
-  //       break;
-  //     case "From":
-  //       icon = const Icon(Icons.account_box, size: 64.0, color: Colors.red);
-  //       break;
-  //     case "To":
-  //       icon = const Icon(
-  //         Icons.account_circle,
-  //         size: 64.0,
-  //         color: Colors.green,
-  //       );
-  //       break;
-  //     default:
-  //   }
-
-  //   return new Column(
-  //     children: <Widget>[
-  //       new Container(
-  //           margin: const EdgeInsets.all(10.0),
-  //           color: const Color(0xFFFFFF),
-  //           width: 64.0,
-  //           height: 64.0,
-  //           child: icon),
-  //       new Text(partnerId, style: _biggerFont),
-  //     ],
-  //   );
-  // }
-
-  Icon _getMood(Duration d) {
-    if (d != null) {
-      var hours = d.inHours;
-      if (hours > 24) {
-        return const Icon(Icons.sentiment_very_satisfied,
-            color: Colors.greenAccent);
-      } else if (hours > 0) {
-        return const Icon(Icons.sentiment_neutral, color: Colors.orangeAccent);
-      } else {
-        return const Icon(
-          Icons.sentiment_dissatisfied,
-          color: Colors.redAccent,
-        );
-      }
-    } else {
-      return const Icon(
-        Icons.sentiment_very_satisfied,
-        size: 36.0,
-      );
-    }
-  }
-
-  Duration _getDuration(Promise item, DateTime now) {
-    return item.expireTime.difference(now);
-  }
+ 
 
   Widget _buildItem(Promise item) {
-    Duration d = _getDuration(item, new DateTime.now());
-    return new Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: new GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        child: new SizedBox(
-          height: 90.0,
-          child: new Card(
-              // child: new Center(
-              //   child: new Text(' ${item.title}', style: _biggerFont),
-              //
-              child: new Row(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                new SizedBox(
-                  height: 90.0,
-                  width: 90.0,
-                  child: new FittedBox(
-                    fit: BoxFit.contain, // otherwise the logo will be tiny
-                    child: _getMood(d),
-                  ),
-                ),
-                new Expanded(
-                    child: new Container(
-                  padding: new EdgeInsets.all(8.0),
-                  child: new Text('${item.title}',
-                      textAlign: TextAlign.left, style: _textFont),
-                )),
-                new SizedBox(
-                    height: 90.0,
-                    width: 100.0,
-                    child: new Column(children: <Widget>[
-                      new Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          const Icon(Icons.access_alarm),
-                          new Text(convertString(d),
-                              textAlign: TextAlign.left, style: _smallFont),
-                        ],
-                      ),
-                      new Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          const Icon(
-                            Icons.favorite,
-                            color: Colors.redAccent,
-                          ),
-                          new Text(
-                            ' ${item.loveRate}',
-                            textAlign: TextAlign.left,
-                            style: _smallFont,
-                          ),
-                          const Icon(Icons.attach_money,
-                              color: Colors.greenAccent),
-                          new Text('${item.bonus}',
-                              textAlign: TextAlign.left, style: _smallFont),
-                        ],
-                      ),
-                      new Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          const Icon(Icons.question_answer,
-                              color: Colors.brown),
-                          new Text(' ${item.status}',
-                              textAlign: TextAlign.left, style: _smallFont),
-                        ],
-                      ),
-                    ])),
-              ])),
-        ),
-      ),
+    return new CardItem(
+      item: item,
+          now: new DateTime.now(),
+          onTap: () {
+           
+          }
     );
   }
 

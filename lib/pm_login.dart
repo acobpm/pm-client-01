@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pm_list.dart';
 import 'localization.dart';
-
+import 'service/remote.dart';
 class LoginWidget extends StatefulWidget {
   @override
   createState() => new LoginState();
@@ -9,9 +9,35 @@ class LoginWidget extends StatefulWidget {
 
 class LoginState extends State<LoginWidget> {
   final _biggerFont = const TextStyle(fontSize: 18.0);
-  String _loginUser ;
-  String _userImg = "Default.jpg";
-  final List<String> _loginUserList = <String>["Vicki", "Mason"];
+  String _loginUser;
+  
+  List<String> _loginUserList =[" "];//new List<String>() ; //<String>["Vicki", "Mason"];
+
+  @override
+  void initState() {
+    super.initState();
+    _getCoupleList(); 
+    //final pmJsonList = toList(localPMList);
+    
+  }
+
+  _getCoupleList() async {
+    var listCouples = await getCoupleList();    
+    print ("Couples " +listCouples.length.toString());
+    setState((){
+      _loginUserList = listCouples; 
+    });
+    
+  }
+  Image _getPersonImg(String user){
+    var img; 
+    try {
+      img = new Image.asset('img/' + user + ".jpg");
+    } catch (exception){ 
+      img = new Image.asset('img/Default.jpg');
+    }
+    return img ; 
+  }
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -35,7 +61,7 @@ class LoginState extends State<LoginWidget> {
                 child: new Center(
                     child: new CircleAvatar(
                         radius: 50.0,
-                        child: new Image.asset('img/' + _userImg)))),
+                        child: _getPersonImg(_loginUser)))),
             new Padding(
               padding: new EdgeInsets.all(16.0),
               child: new Center(
@@ -45,7 +71,7 @@ class LoginState extends State<LoginWidget> {
                   onChanged: (String newValue) {
                     setState(() {
                       _loginUser = newValue;
-                      _userImg = newValue + ".jpg";
+                      
                     });
                   },
                   items: _loginUserList.map((String value) {

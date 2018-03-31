@@ -8,8 +8,8 @@ class Promise {
       this.promiseFromId,
       this.promiseToId,
       this.mood,
-      this.expireTime,
-      this.title,
+      this.deadline,
+      this.brief,
       this.bonus,
       this.loveRate,
       this.status});
@@ -18,24 +18,35 @@ class Promise {
   String promiseFromId;
   String promiseToId;
   String mood;
-  DateTime expireTime;
-  String title;
+  DateTime deadline;
+  String brief;
   double bonus;
   int loveRate;
   String status;
   Promise.fromJson(Map json) {
     this.promiseId = json['promiseId'];
-    this.creatorId = json['creatorId'];
-    this.promiseFromId = json['promiseFromId'];
-    this.promiseToId = json['promiseToId'];
-    this.title = json['title'];
-    this.bonus = json['bonus'];
-    this.loveRate = json['loveRate'];
+    this.creatorId = _getPersonIdByResource(json['creator']);
+    this.promiseFromId = _getPersonIdByResource(json['promiseFrom']);
+    this.promiseToId = _getPersonIdByResource(json['promiseTo']);
+    this.brief = json['brief'];
+    this.bonus = json['bonus'].toDouble(); //double.parse(json['bonus'].toString());
+    this.loveRate = json['loveRate']; 
     this.status = json['status'];
-    this.expireTime = DateTime.parse(json['expireTime']);
+    this.deadline = DateTime.parse(json['deadline']);
   }
 }
-
+_getPersonIdByResource(String r){
+  String rt = "";
+  if (r!=null){
+      final arr = r.split('#');
+      if (arr.length == 2){
+        rt = arr[1];
+      } else {
+        rt = r ;
+      }
+  }
+  return rt; 
+}
 class ListModel<E> {
   ListModel({
     @required this.listKey,
