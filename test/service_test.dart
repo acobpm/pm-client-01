@@ -5,7 +5,7 @@ import "package:pm_client_01/service/remote.dart";
 void main() {
   test("Remote Connection", () async {
     print("Start remote");
-    String r ;
+    
     var f  = await getConnection();
     
     //f.then((String s){r = s;});

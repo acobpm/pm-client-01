@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 
 import 'model/data.dart';
@@ -22,7 +22,6 @@ class PromiseMeState extends State<PromiseMePage> {
 
 
   final _biggerFont = const TextStyle(fontSize: 18.0);
-  final _textFont = const TextStyle(fontSize: 16.0);
   // final _smallFont = const TextStyle(fontSize: 12.0);
   // final _buttonTextFont = const TextStyle(fontSize: 18.0, color: Colors.white);
 
@@ -31,9 +30,9 @@ class PromiseMeState extends State<PromiseMePage> {
   // DateTime _toDate = new DateTime.now();
   // TimeOfDay _toTime = const TimeOfDay(hour: 7, minute: 28);
   final List<String> _bonusList = <String>['10', '20', '30', '50', '100'];
-  final List<int> _loveList = <int>[1, 2, 3];
+
   String _selBonus = '10';
-  int _selLove = 1;
+
 
   @override
   Widget build(BuildContext context) {

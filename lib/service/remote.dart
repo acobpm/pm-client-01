@@ -4,7 +4,8 @@ import 'dart:async';
 import '../util.dart';
 import '../model/data.dart';
 
-const apiUrl = 'http://192.168.1.17:3000/api/';
+//const apiUrl = 'http://192.168.1.17:3000/api/';
+const apiUrl = 'http://192.168.1.13:3000/api/';
 const nsPM = 'com.acob.promiseme.';
 const pCouple = "Couple";
 const aPromise = "PromiseMe";
@@ -68,13 +69,19 @@ Future<String> getConnection() async {
 }
 Future<List> getCoupleList() async{
   final _url = apiUrl + nsPM + pCouple;
-  var _retList = new List();
+  var _retList = new List(); 
+  try {
   var str = await getRESTJsonString(_url);
   if (str !='Error'){
     var jsonList = toList(str);
      for (var map in jsonList) {
       _retList.add(map["personId"]);
-    }
+    } 
+  } else {
+    _retList.add(" ");
+  }
+  } catch(exception){
+    print(exception.toString());
   }
   return _retList; 
 }
@@ -107,4 +114,18 @@ Future<List<Promise>> getPMList(String personId) async{
     }
   }
   return _retList; 
+}
+
+Future<List<Promise>> getTxList(String pmId,String status) async{
+  //get status list
+  final _statusUrl= apiUrl + nsPM + aPromiseStatus;
+  Map<String,String> statusMap ;
+  var strStatus = await getRESTJsonString(_statusUrl);
+  if (strStatus !='Error'){
+    final List<Map> jsonStatusList = toList(strStatus);
+    statusMap = new Map<String,String>.fromIterable(jsonStatusList, 
+      key:(Map m) => m['promiseId'].toString(),
+      value: (Map m) => m['status'].toString());
+    print(statusMap.toString());
+  }
 }

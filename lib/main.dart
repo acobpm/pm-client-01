@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 
-import 'package:flutter/foundation.dart' show SynchronousFuture;
-import 'pm_list.dart';
+
 import 'pm_login.dart';
 import 'dart:async';
 import 'localization.dart';

@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'model/data.dart';
 import 'util.dart';
@@ -19,12 +19,10 @@ class PromiseDetailState extends State<PromiseDetailPage> {
   PromiseDetailState(this.item);
   final Promise item;
 
-  final _biggerFont = const TextStyle(fontSize: 18.0);
+  //final _biggerFont = const TextStyle(fontSize: 18.0);
   final _textFont = const TextStyle(fontSize: 16.0);
-  final _smallFont = const TextStyle(fontSize: 12.0);
+  //final _smallFont = const TextStyle(fontSize: 12.0);
   final _buttonTextFont = const TextStyle(fontSize: 18.0, color: Colors.white);
-
-  int _screen = 0;
 
   @override
   Widget build(BuildContext context) {

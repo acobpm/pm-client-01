@@ -6,7 +6,7 @@ import 'util.dart';
 
 
 class CardItem extends StatelessWidget {
-  final _biggerFont = const TextStyle(fontSize: 18.0);
+
   final _textFont = const TextStyle(fontSize: 16.0);
   final _smallFont = const TextStyle(fontSize: 12.0);
   const CardItem(

@@ -9,11 +9,9 @@ import 'dart:async';
 //import 'dart:io';
 
 final _dateFormatFull = new DateFormat('dd/MM/yyyy HH:mm:ss');
-final _dateFormatRemote = new DateFormat('yyyy-MM-ddTHH:mm:ss.SSSZ');
+//final _dateFormatRemote = new DateFormat('yyyy-MM-ddTHH:mm:ss.SSSZ');
 
-DateTime partDate(String strDate){
 
-}
 String formatDate(DateTime dt,String type){
   if (dt ==null){
     return "";
