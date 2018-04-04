@@ -11,6 +11,7 @@ const pCouple = "Couple";
 const aPromise = "PromiseMe";
 const aPromiseStatus = "PromiseStatus";
 const cResource = "resource";
+const tNegociate = "NegotiatePromise";
 
 Future<String> getRESTJsonString(String url) async {
 var httpClient = new HttpClient();
@@ -115,7 +116,19 @@ Future<List<Promise>> getPMList(String personId) async{
   }
   return _retList; 
 }
-
+Future<List<PromiseHistory>> getTxHistoryList(String pmId, String currenStatus) async{
+  var _txhisUrl = apiUrl + nsPM + tNegociate;
+  var _retList = [];
+  final _filter = "?filter=%7B%22where%22%3A%7B%22promiseId%22%3A%22"+pmId+"%22%7D%7D";
+  var strHistory = await getRESTJsonString(_txhisUrl+_filter);
+  if (strHistory !='Error'){
+    final List<Map> jsonHistoryList = toList(strHistory);
+    for (var map in jsonHistoryList) {
+      _retList.add(new PromiseHistory.fromJson(map,"Negociating"));
+    }
+  }
+  return _retList ; 
+}
 Future<List<Promise>> getTxList(String pmId,String status) async{
   //get status list
   final _statusUrl= apiUrl + nsPM + aPromiseStatus;

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'model/data.dart';
 import 'util.dart';
 import 'local/json.dart';
+import 'service/remote.dart';
 import 'pm_nav.dart';
 import 'pm_widget.dart';
 import 'localization.dart';
@@ -23,6 +24,20 @@ class PromiseDetailState extends State<PromiseDetailPage> {
   final _textFont = const TextStyle(fontSize: 16.0);
   //final _smallFont = const TextStyle(fontSize: 12.0);
   final _buttonTextFont = const TextStyle(fontSize: 18.0, color: Colors.white);
+
+  var _pmHistList = [];
+  @override
+  void initState() {
+    super.initState();
+
+     _genTxHistoryList();
+  }
+  _genTxHistoryList() async {
+      _pmHistList = await getTxHistoryList(item.promiseId,item.status);
+      setState(() {
+      //currently empty
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,11 +194,12 @@ class PromiseDetailState extends State<PromiseDetailPage> {
   }
 
   _buildTxList(BuildContext context) {
-    List<PromiseHistory> list = <PromiseHistory>[];
-    final pmHisJsonList = toList(txDoneList).reversed; // from json.dart
-    for (var map in pmHisJsonList) {
-      list.add(new PromiseHistory.fromJson(map));
-    }
+    List<PromiseHistory> list = _pmHistList; //<PromiseHistory>[];
+    //final pmHisJsonList = toList(txDoneList).reversed; // from json.dart
+    // for (var map in pmHisJsonList) {
+    //   list.add(new PromiseHistory.fromJson(map,"Negociating"));
+    // }
+
     return new Expanded(
         flex: 3,
         child: new Container(

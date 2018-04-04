@@ -97,11 +97,11 @@ class PromiseHistory {
   String status;
   DateTime timestamp;
 
-  PromiseHistory.fromJson(Map json) {
+  PromiseHistory.fromJson(Map json,String status) {
     this.promiseId = json['promiseId'];
     this.currentId = json['currentId'];
     this.message = json['message'];
-    this.status = json['status'];
+    this.status = status;//json['status'];
     this.timestamp = DateTime.parse(json['timestamp']);
   }
 }
