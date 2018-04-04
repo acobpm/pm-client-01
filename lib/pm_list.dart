@@ -99,7 +99,7 @@ class PromiseListState extends State<PromiseListWidget> {
                 }
 
                 return new Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(5.0),
                   child: new ChoiceCard(choice: choice, list: _filterList),
                 );
               }).toList(),

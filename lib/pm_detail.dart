@@ -101,9 +101,10 @@ class PromiseDetailState extends State<PromiseDetailPage> {
   }
 
   _buildAction(BuildContext context) {
-    return new Flexible(
+    return new Expanded(
+      flex: 2,
         child: new Container(
-      width: 180.0,
+        
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -184,11 +185,11 @@ class PromiseDetailState extends State<PromiseDetailPage> {
       list.add(new PromiseHistory.fromJson(map));
     }
     return new Expanded(
-        flex: 2,
+        flex: 3,
         child: new Container(
             height: 300.0,
             alignment: Alignment.bottomCenter,
-            margin: const EdgeInsets.only(right: 15.0),
+            margin: const EdgeInsets.only(right:5.0),
             padding: const EdgeInsets.all(5.0),
             decoration:
                 new BoxDecoration(border: new Border.all(color: Colors.brown)),

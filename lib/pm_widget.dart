@@ -65,6 +65,7 @@ class CardItem extends StatelessWidget {
               // child: new Center(
               //   child: new Text(' ${item.title}', style: _biggerFont),
               //
+               
               child: new Row(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,13 +80,13 @@ class CardItem extends StatelessWidget {
                 ),
                 new Expanded(
                     child: new Container(
-                  padding: new EdgeInsets.all(8.0),
+                  padding: new EdgeInsets.all(2.0),
                   child: new Text('${item.brief}',
                       textAlign: TextAlign.left, style: _textFont),
                 )),
                 new SizedBox(
                     height: 90.0,
-                    width: 100.0,
+                    width: 120.0,
                     child: new Column(children: <Widget>[
                       new Row(
                         mainAxisSize: MainAxisSize.max,
