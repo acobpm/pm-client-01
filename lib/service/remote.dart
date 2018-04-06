@@ -12,6 +12,8 @@ const aPromise = "PromiseMe";
 const aPromiseStatus = "PromiseStatus";
 const cResource = "resource";
 const tNegociate = "NegotiatePromise";
+const tConfirm = "ConfirmPromise";
+const tFulfill = "FulfillPromise";
 
 Future<String> getRESTJsonString(String url) async {
 var httpClient = new HttpClient();
@@ -119,13 +121,52 @@ Future<List<Promise>> getPMList(String personId) async{
 Future<List<PromiseHistory>> getTxHistoryList(String pmId, String currenStatus) async{
   var _txhisUrl = apiUrl + nsPM + tNegociate;
   var _retList = [];
-  final _filter = "?filter=%7B%22where%22%3A%7B%22promiseId%22%3A%22"+pmId+"%22%7D%7D";
-  var strHistory = await getRESTJsonString(_txhisUrl+_filter);
+  //final _filter = "?filter=%7B%22where%22%3A%7B%22promiseId%22%3A%22"+pmId+"%22%7D%7D";
+  //final _filter = '?filter={"where":{"promiseId":"'+pmId+'"}}"';
+  
+  var _filter = '?filter={"where":{"promiseId": "$pmId"}}';
+  var _url ="";
+  List<PromiseHistory> combinedList = [];
+List<PromiseHistory> currentList = [];
+  switch (currenStatus) {
+    case "FULFILLING":
+      _txhisUrl = apiUrl + nsPM + tConfirm;
+      _url = Uri.encodeFull(_txhisUrl+_filter);
+      currentList = await getPromiseHistoryListByUrl(_url,"FULFILLING");
+      if (currentList!=null && currentList.length>0){
+        combinedList.insertAll(combinedList.length, currentList);
+      }
+      continue NEGOTIATION;
+    NEGOTIATION:
+    case "NEGOTIATING":
+      
+      _txhisUrl = apiUrl + nsPM + tNegociate;
+      _url = Uri.encodeFull(_txhisUrl+_filter);
+      currentList = await getPromiseHistoryListByUrl(_url,"NEGOTIATING");
+      if (currentList!=null && currentList.length>0){
+        combinedList.insertAll(combinedList.length, currentList);
+      }
+      break;
+        
+    default:
+    
+  }
+  
+  return combinedList;
+  
+}
+Future<List<PromiseHistory>> getPromiseHistoryListByUrl(String url, String historyStatus) async{
+  List<PromiseHistory>  _retList = [];
+  var strHistory = await getRESTJsonString(url);
+  
   if (strHistory !='Error'){
     final List<Map> jsonHistoryList = toList(strHistory);
     for (var map in jsonHistoryList) {
-      _retList.add(new PromiseHistory.fromJson(map,"Negociating"));
+      _retList.add(new PromiseHistory.fromJson(map,historyStatus));
     }
+  } 
+  if (_retList!=null && _retList.length>1){
+    _retList = _retList.reversed.toList();
   }
   return _retList ; 
 }

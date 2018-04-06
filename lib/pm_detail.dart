@@ -72,8 +72,9 @@ class PromiseDetailState extends State<PromiseDetailPage> {
                   padding:
                       const EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
                   child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
+              
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[_buildTxList(context), _buildAction(context)],
                   ),
                 )
@@ -203,7 +204,8 @@ class PromiseDetailState extends State<PromiseDetailPage> {
     return new Expanded(
         flex: 3,
         child: new Container(
-            height: 300.0,
+            height: 400.0,
+            
             alignment: Alignment.bottomCenter,
             margin: const EdgeInsets.only(right:5.0),
             padding: const EdgeInsets.all(5.0),
