@@ -25,9 +25,9 @@ class PromiseListState extends State<PromiseListWidget> {
   PromiseListState(this.userMe);
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
-  List<Promise> _pmList = <Promise>[];
-  List<Promise> _mPmList = <Promise>[];
-  List<Promise> _hPmList = <Promise>[];
+  var _pmList = <Promise>[];
+  var _mPmList = <Promise>[];
+  var _hPmList = <Promise>[];
 
   final String userMe; //current user
 
@@ -64,7 +64,7 @@ class PromiseListState extends State<PromiseListWidget> {
     choices.add(
         new Choice(id: "H", title: PMLocalizations.of(context).pgListTabHis));
 
-    debugPrint("Current User: " + userMe);
+    //debugPrint("Current User: " + userMe);
     return new DefaultTabController(
         length: choices.length,
         child: new Scaffold(
@@ -152,7 +152,7 @@ class ChoiceCard extends StatelessWidget {
           item: list[index],
           now: new DateTime.now(),
           onTap: () {
-            debugPrint("tapped " + list[index].promiseId);
+            debugPrint("tapped " + list[index].brief);
             Navigator.push(
                 context,
                 new MaterialPageRoute(

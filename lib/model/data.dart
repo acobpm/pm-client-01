@@ -106,3 +106,25 @@ class PromiseHistory {
   }
 }
 
+class PromiseStatus {
+  PromiseStatus({
+    this.promiseId,
+    this.nextId,
+    this.currentId,
+    this.preStatus,
+    this.status,
+  });
+  String promiseId;
+  String currentId;
+  String nextId;
+  String status;
+  String preStatus;
+
+  PromiseStatus.fromJson(Map json) {
+    this.promiseId = json['promiseId'];
+    this.currentId = json['currentId'];
+    this.nextId = json['nextId'];
+    this.status = json['status'];
+    this.preStatus = json['preStatus'];;
+  }
+}

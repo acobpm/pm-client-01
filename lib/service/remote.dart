@@ -5,7 +5,7 @@ import '../util.dart';
 import '../model/data.dart';
 
 //const apiUrl = 'http://192.168.1.17:3000/api/';
-const apiUrl = 'http://192.168.1.13:3000/api/';
+const apiUrl = 'http://192.168.1.8:3000/api/';
 const nsPM = 'com.acob.promiseme.';
 const pCouple = "Couple";
 const aPromise = "PromiseMe";
@@ -14,6 +14,7 @@ const cResource = "resource";
 const tNegociate = "NegotiatePromise";
 const tConfirm = "ConfirmPromise";
 const tFulfill = "FulfillPromise";
+const tMakePromise = "MakePromise";
 
 Future<String> getRESTJsonString(String url) async {
 var httpClient = new HttpClient();
@@ -27,7 +28,7 @@ var httpClient = new HttpClient();
       
       if (response.statusCode == HttpStatus.OK) {
         
-        var json = await response.transform(UTF8.decoder).join();
+        var json = await response.transform(utf8.decoder).join();
         //var data = JSON.decode(json);
         result = json; 
       } else {
@@ -55,7 +56,7 @@ Future<String> getConnection() async {
       
       if (response.statusCode == HttpStatus.OK) {
         
-        var json = await response.transform(UTF8.decoder).join();
+        var json = await response.transform(utf8.decoder).join();
         var data = JSON.decode(json);
         result = data['gender'];
       } else {
@@ -70,18 +71,18 @@ Future<String> getConnection() async {
     
     return new Future.value(result) ; 
 }
-Future<List> getCoupleList() async{
+Future<List<String>> getCoupleList() async{
   final _url = apiUrl + nsPM + pCouple;
-  var _retList = new List(); 
+  var _retList = new List<String>(); 
   try {
   var str = await getRESTJsonString(_url);
-  if (str !='Error'){
+  if (str !='Error'){ 
     var jsonList = toList(str);
      for (var map in jsonList) {
       _retList.add(map["personId"]);
     } 
   } else {
-    _retList.add(" ");
+    _retList.add(" "); 
   }
   } catch(exception){
     print(exception.toString());
@@ -95,17 +96,17 @@ Future<List<Promise>> getPMList(String personId) async{
   Map<String,String> statusMap ;
   var strStatus = await getRESTJsonString(_statusUrl);
   if (strStatus !='Error'){
-    final List<Map> jsonStatusList = toList(strStatus);
-    statusMap = new Map<String,String>.fromIterable(jsonStatusList, 
-      key:(Map m) => m['promiseId'].toString(),
-      value: (Map m) => m['status'].toString());
+    final jsonStatusList = toList(strStatus);
+    statusMap = new Map.fromIterable(jsonStatusList, 
+      key:(var m) => m['promiseId'].toString(),
+      value: (var m) => m['status'].toString());
     print(statusMap.toString());
   }
 
 
   //get promise list 
   final _url = apiUrl + nsPM + aPromise;
-  var _retList = new List();
+  var _retList = new List<Promise>();
   var str = await getRESTJsonString(_url);
   if (str !='Error'){
     var jsonList = toList(str); 
@@ -118,9 +119,24 @@ Future<List<Promise>> getPMList(String personId) async{
   }
   return _retList; 
 }
+
+Future<PromiseStatus> getPromiseStatus(String pmId) async{
+  
+  //var _filter = '?filter={"where":{"promiseId": "$pmId"}}';
+  var _url = Uri.encodeFull(apiUrl + nsPM + aPromiseStatus+"/"+pmId);
+  var strStatus = await getRESTJsonString(_url);
+  if (strStatus!='Error'){
+      Map map = toMap(strStatus);
+      return new PromiseStatus.fromJson(map);
+  } else {
+    return null;
+  }
+  
+
+
+}
 Future<List<PromiseHistory>> getTxHistoryList(String pmId, String currenStatus) async{
   var _txhisUrl = apiUrl + nsPM + tNegociate;
-  var _retList = [];
   //final _filter = "?filter=%7B%22where%22%3A%7B%22promiseId%22%3A%22"+pmId+"%22%7D%7D";
   //final _filter = '?filter={"where":{"promiseId":"'+pmId+'"}}"';
   
@@ -160,7 +176,7 @@ Future<List<PromiseHistory>> getPromiseHistoryListByUrl(String url, String histo
   var strHistory = await getRESTJsonString(url);
   
   if (strHistory !='Error'){
-    final List<Map> jsonHistoryList = toList(strHistory);
+    var jsonHistoryList = toList(strHistory);
     for (var map in jsonHistoryList) {
       _retList.add(new PromiseHistory.fromJson(map,historyStatus));
     }
@@ -170,16 +186,39 @@ Future<List<PromiseHistory>> getPromiseHistoryListByUrl(String url, String histo
   }
   return _retList ; 
 }
-Future<List<Promise>> getTxList(String pmId,String status) async{
-  //get status list
-  final _statusUrl= apiUrl + nsPM + aPromiseStatus;
-  Map<String,String> statusMap ;
-  var strStatus = await getRESTJsonString(_statusUrl);
-  if (strStatus !='Error'){
-    final List<Map> jsonStatusList = toList(strStatus);
-    statusMap = new Map<String,String>.fromIterable(jsonStatusList, 
-      key:(Map m) => m['promiseId'].toString(),
-      value: (Map m) => m['status'].toString());
-    print(statusMap.toString());
+
+void addNewPromise(Map<String, dynamic> jsonBody) async{
+  try {
+    HttpClient client = new HttpClient();
+    final _url = apiUrl + nsPM + tMakePromise;
+    var response = await performApiRequest(client, _url, jsonBody);
+    print (response.toString());
+  } catch (e) {
+   // return "Error";
+   print(e.toString());
   }
+}
+Future<Map<String, dynamic>> performApiRequest(
+    HttpClient client, String url, Map<String, dynamic> jsonBody,
+    [String accessToken]) async {
+  final String requestBody = json.encode(jsonBody);
+  HttpClientRequest request = await client.postUrl(Uri.parse(url))
+    //..headers.add(HttpHeaders.ACCEPT, ContentType.JSON)
+    ..headers.contentType = ContentType.JSON
+    ..headers.contentLength = requestBody.length
+    ..headers.chunkedTransferEncoding = false;
+  if (accessToken != null) {
+    request.headers.add(HttpHeaders.AUTHORIZATION, 'Bearer $accessToken');
+  }
+  request.write(requestBody);
+  HttpClientResponse response = await request.close();
+  if (response.headers.contentType.toString() != ContentType.JSON.toString()) {
+    //throw new UnsupportedError('Server returned an unsupported content type: '
+    //      '${response.headers.contentType} from ${request.uri}');
+  }
+  if (response.statusCode != HttpStatus.OK) {
+    // throw new StateError(
+    //     'Server responded with error: ${response.statusCode} ${response.reasonPhrase}');
+  }
+  return json.decode(await response.transform(utf8.decoder).join());
 }

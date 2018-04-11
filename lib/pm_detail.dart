@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'model/data.dart';
 import 'util.dart';
-import 'local/json.dart';
 import 'service/remote.dart';
 import 'pm_nav.dart';
 import 'pm_widget.dart';
@@ -25,7 +24,8 @@ class PromiseDetailState extends State<PromiseDetailPage> {
   //final _smallFont = const TextStyle(fontSize: 12.0);
   final _buttonTextFont = const TextStyle(fontSize: 18.0, color: Colors.white);
 
-  var _pmHistList = [];
+  List<PromiseHistory>  _pmHistList = [];
+  PromiseStatus _pmStatus;
   @override
   void initState() {
     super.initState();
@@ -33,6 +33,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
      _genTxHistoryList();
   }
   _genTxHistoryList() async {
+      _pmStatus = await getPromiseStatus(item.promiseId);
       _pmHistList = await getTxHistoryList(item.promiseId,item.status);
       setState(() {
       //currently empty
@@ -208,7 +209,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
             
             alignment: Alignment.bottomCenter,
             margin: const EdgeInsets.only(right:5.0),
-            padding: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(2.0),
             decoration:
                 new BoxDecoration(border: new Border.all(color: Colors.brown)),
             child: new ListView.builder(
@@ -234,7 +235,7 @@ class EntryItem extends StatelessWidget {
   Widget _buildPHItem(PromiseHistory entry) {
     final _phTextFont = const TextStyle(fontSize: 14.0);
     final _phTextFontStatus =
-        const TextStyle(fontSize: 14.0, color: Colors.brown);
+        const TextStyle(fontSize: 12.0, color: Colors.brown);
     return new Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.end,
@@ -260,6 +261,9 @@ class EntryItem extends StatelessWidget {
                 ],
               ),
               new Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   new Icon(Icons.assignment, color: Colors.brown),
                   new Expanded(

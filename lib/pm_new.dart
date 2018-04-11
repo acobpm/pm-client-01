@@ -1,10 +1,14 @@
+import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:progress_hud/progress_hud.dart';
 
 import 'model/data.dart';
-import 'util.dart';
+import 'pm_widget.dart';
 import 'pm_nav.dart';
 import 'localization.dart';
+import 'service/remote.dart';
+import 'util.dart';
 
 class PromiseMePage extends StatefulWidget {
   PromiseMePage(this.promise);
@@ -18,13 +22,13 @@ class PromiseMeState extends State<PromiseMePage> {
   PromiseMeState(this.item);
   final Promise item;
 
- List<Choice> choices ;
-
+  List<Choice> choices;
 
   final _biggerFont = const TextStyle(fontSize: 18.0);
   // final _smallFont = const TextStyle(fontSize: 12.0);
   // final _buttonTextFont = const TextStyle(fontSize: 18.0, color: Colors.white);
 
+  String _txtBrief = '';
   DateTime _fromDate = new DateTime.now();
   TimeOfDay _fromTime = const TimeOfDay(hour: 12, minute: 00);
   // DateTime _toDate = new DateTime.now();
@@ -32,123 +36,130 @@ class PromiseMeState extends State<PromiseMePage> {
   final List<String> _bonusList = <String>['10', '20', '30', '50', '100'];
 
   String _selBonus = '10';
-
+  int _loveValue = 0;
 
   @override
   Widget build(BuildContext context) {
-  choices = new List<Choice> ();
-  choices.add( new Choice(title: PMLocalizations.of(context).pgNewTabGive ));
-  choices.add( new Choice(title: PMLocalizations.of(context).pgNewTabRequest ));
-  
+    choices = new List<Choice>();
+    choices.add(new Choice(title: PMLocalizations.of(context).pgNewTabGive));
+    choices.add(new Choice(title: PMLocalizations.of(context).pgNewTabRequest));
 
     return new DefaultTabController(
         length: choices.length,
         child: new Scaffold(
-          appBar: new AppBar(
-            title: new Text(PMLocalizations.of(context).pgNewTitle),
-            actions: <Widget>[
-              //new IconButton(icon: new Icon(Icons.list), onPressed: ),
-            ],
-            bottom: new TabBar(
-              isScrollable: true,
-              labelStyle: _biggerFont,
-              tabs: choices.map((Choice choice) {
-                return new Tab(
-                  text: choice.title,
-                  // icon: new Icon(choice.icon),
-                );
-              }).toList(),
+            appBar: new AppBar(
+              title: new Text(PMLocalizations.of(context).pgNewTitle),
+              actions: <Widget>[
+                //new IconButton(icon: new Icon(Icons.list), onPressed: ),
+              ],
+              bottom: new TabBar(
+                isScrollable: true,
+                labelStyle: _biggerFont,
+                tabs: choices.map((Choice choice) {
+                  return new Tab(
+                    text: choice.title,
+                    // icon: new Icon(choice.icon),
+                  );
+                }).toList(),
+              ),
             ),
-          ),
-          body: new TabBarView(
-            children: choices.map((Choice choice) {
-              return new Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: new DropdownButtonHideUnderline(
-                  child: new SafeArea(
-                    top: false,
-                    bottom: false,
-                    child: new ListView(
-                      padding: const EdgeInsets.all(16.0),
-                      children: <Widget>[
-                        new TextField(
+            body: new TabBarView(
+              children: choices.map((Choice choice) {
+                return new Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: new DropdownButtonHideUnderline(
+                    child: new SafeArea(
+                      top: false,
+                      bottom: false,
+                      child: new ListView(
+                        padding: const EdgeInsets.all(16.0),
+                        children: <Widget>[
+                          new TextField(
+                              decoration: new InputDecoration(
+                                labelText: PMLocalizations
+                                    .of(context)
+                                    .pgNewInputPromise,
+                              ),
+                              onChanged: (String newValue) {
+                                _txtBrief = newValue;
+                              },
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .display1
+                                  .copyWith(fontSize: 24.0)),
+                          new DateTimePicker(
+                            labelText: PMLocalizations
+                                .of(context)
+                                .pgNewInputExpireDate,
+                            selectedDate: _fromDate,
+                            selectedTime: _fromTime,
+                            selectDate: (DateTime date) {
+                              setState(() {
+                                _fromDate = date;
+                              });
+                            },
+                            selectTime: (TimeOfDay time) {
+                              setState(() {
+                                _fromTime = time;
+                              });
+                            },
+                          ),
+                          new InputDecorator(
                             decoration: new InputDecoration(
-                              labelText: PMLocalizations.of(context).pgNewInputPromise,
+                              labelText:
+                                  PMLocalizations.of(context).pgNewInputBonus,
+                              hintText: PMLocalizations
+                                  .of(context)
+                                  .pgNewInputBonusHint,
+                            ),
+                            isEmpty: _selBonus == null,
+                            child: new DropdownButton<String>(
+                              value: _selBonus,
+                              isDense: true,
+                              onChanged: (String newValue) {
+                                setState(() {
+                                  _selBonus = newValue;
+                                });
+                              },
+                              items: _bonusList.map((String value) {
+                                return new DropdownMenuItem<String>(
+                                  value: value,
+                                  child: new Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                          _buildIconButton(context),
+                          new TextField(
+                            decoration: new InputDecoration(
+                              labelText: PMLocalizations
+                                  .of(context)
+                                  .pgNewInputComments,
                             ),
                             style: Theme
                                 .of(context)
                                 .textTheme
                                 .display1
-                                .copyWith(fontSize: 24.0)),
-                        new DateTimePicker(
-                          labelText: PMLocalizations.of(context).pgNewInputExpireDate,
-                          selectedDate: _fromDate,
-                          selectedTime: _fromTime,
-                          selectDate: (DateTime date) {
-                            setState(() {
-                              _fromDate = date;
-                            });
-                          },
-                          selectTime: (TimeOfDay time) {
-                            setState(() {
-                              _fromTime = time;
-                            });
-                          },
-                        ),
-                        new InputDecorator(
-                          decoration: new InputDecoration(
-                            labelText: PMLocalizations.of(context).pgNewInputBonus,
-                            hintText: PMLocalizations.of(context).pgNewInputBonusHint,
+                                .copyWith(fontSize: 20.0),
                           ),
-                          isEmpty: _selBonus == null,
-                          child: new DropdownButton<String>(
-                            value: _selBonus,
-                            isDense: true,
-                            onChanged: (String newValue) {
-                              setState(() {
-                                _selBonus = newValue;
-                              });
-                            },
-                            items: _bonusList.map((String value) {
-                              return new DropdownMenuItem<String>(
-                                value: value,
-                                child: new Text(value),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                        
-                        _buildIconButton(context),
-                        new TextField(
-                          decoration: new InputDecoration(
-                            labelText: PMLocalizations.of(context).pgNewInputComments,
-                          ),
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .display1
-                              .copyWith(fontSize: 20.0),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            }).toList(),
-          ),
-          bottomNavigationBar: new PromiseNavBottom(0),
-          floatingActionButton: new FloatingActionButton(
-            elevation: 0.0,
-            child: new Icon(Icons.done),            
-            onPressed: (){
-
-
-            }
-          )
-        ));
+                );
+              }).toList(),
+            ),
+            bottomNavigationBar: new PromiseNavBottom(0),
+            floatingActionButton: new FloatingActionButton(
+                elevation: 0.0,
+                child: new Icon(Icons.done),
+                onPressed: () {
+                  _makePromise();
+                })));
   }
+
   bool iconButtonToggle = false;
-  int _loveValue = 0 ;
 
   Widget _buildIconButton(BuildContext context) {
     return new Align(
@@ -167,25 +178,25 @@ class PromiseMeState extends State<PromiseMePage> {
             ),
             onPressed: () {
               setState(() {
-              //iconButtonToggle = !iconButtonToggle;
-              _loveValue = 1;
-            } );
+                //iconButtonToggle = !iconButtonToggle;
+                _loveValue = 1;
+              });
             },
-            color: _loveValue>0 ? Theme.of(context).primaryColor : null,
+            color: _loveValue > 0 ? Theme.of(context).primaryColor : null,
           ),
-           new IconButton(
-            icon: const Icon(              
+          new IconButton(
+            icon: const Icon(
               Icons.favorite,
               size: 24.0,
               semanticLabel: 'love',
             ),
             onPressed: () {
               setState(() {
-              //iconButtonToggle = !iconButtonToggle;
-              _loveValue = 2;
-            } );
+                //iconButtonToggle = !iconButtonToggle;
+                _loveValue = 2;
+              });
             },
-            color: _loveValue>1 ? Theme.of(context).primaryColor : null,
+            color: _loveValue > 1 ? Theme.of(context).primaryColor : null,
           ),
           new IconButton(
             icon: const Icon(
@@ -195,28 +206,56 @@ class PromiseMeState extends State<PromiseMePage> {
             ),
             onPressed: () {
               setState(() {
-              //iconButtonToggle = !iconButtonToggle;
-              _loveValue = 3;
-            } );
+                //iconButtonToggle = !iconButtonToggle;
+                _loveValue = 3;
+              });
             },
-            color: _loveValue>2 ? Theme.of(context).primaryColor : null,
+            color: _loveValue > 2 ? Theme.of(context).primaryColor : null,
           ),
-          
         ]
-        .map((Widget button) => new SizedBox(width: 64.0, height: 64.0, child: button))
-        .toList(),
+            .map((Widget button) =>
+                new SizedBox(width: 64.0, height: 64.0, child: button))
+            .toList(),
       ),
     );
   }
-}
 
+  Future _makePromise() async {
+    print("make promise :-->");
+  
+
+  var progress = new ProgressHUD(
+        backgroundColor: Colors.black12,
+        color: Colors.white,
+        containerColor: Colors.blue,
+        borderRadius: 5.0,
+      );
+    DateTime dt = _fromDate.add(new Duration(minutes: _fromTime.hour*60+_fromTime.minute));
+    var jsonMap = {
+      "\$class": "com.acob.promiseme.MakePromise",
+      "promiseFromId": "Mason",
+      "promiseToId": "Vicki",
+      "creatorId": "Mason",
+      "brief": _txtBrief,
+      "expectation": "ok",
+      "bonus":_selBonus,
+      "loveRate": _loveValue,
+      "deadline": formatDate(dt,"R")
+
+    };
+    showDialog(context: context,
+    child: progress);
+    await addNewPromise(jsonMap);
+    Navigator.pop(context);
+    Navigator.pop(context);
+  }
+}
 
 class Choice {
   const Choice({this.title});
   final String title;
   // final IconData icon;
 }
-
 
 // class ChoiceCard extends StatelessWidget {
 //   const ChoiceCard({Key key, this.choice}) : super(key: key);
