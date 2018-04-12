@@ -102,6 +102,42 @@
     "type": "text",
     "placeholders": {}
   },
+  "pgDetailBtnAccept": "ACCEPT",
+  "@pgDetailBtnAccept": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnReject": "REJECT",
+  "@pgDetailBtnReject": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnNegotiate": "NEGOTIATE",
+  "@pgDetailBtnNegotiate": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnDone": "DONE",
+  "@pgDetailBtnDone": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnComment": "COMMENTS",
+  "@pgDetailBtnComment": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnCancel": "CANCEL",
+  "@pgDetailBtnCancel": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "pgNewTitle": "New Promise",
   "@pgNewTitle": {
     "description": "",

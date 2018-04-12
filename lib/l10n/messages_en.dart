@@ -19,9 +19,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "pgDetailBtnAccept" : MessageLookupByLibrary.simpleMessage("ACCEPT"),
     "pgDetailBtnBad" : MessageLookupByLibrary.simpleMessage("BAD"),
+    "pgDetailBtnCancel" : MessageLookupByLibrary.simpleMessage("CANCEL"),
+    "pgDetailBtnComment" : MessageLookupByLibrary.simpleMessage("COMMENTS"),
+    "pgDetailBtnDone" : MessageLookupByLibrary.simpleMessage("DONE"),
     "pgDetailBtnGood" : MessageLookupByLibrary.simpleMessage("GOOD"),
+    "pgDetailBtnNegotiate" : MessageLookupByLibrary.simpleMessage("NEGOTIATE"),
     "pgDetailBtnPass" : MessageLookupByLibrary.simpleMessage("PASS"),
+    "pgDetailBtnReject" : MessageLookupByLibrary.simpleMessage("REJECT"),
     "pgDetailTitle" : MessageLookupByLibrary.simpleMessage("Promise Detail"),
     "pgDetailTxtCommentHint" : MessageLookupByLibrary.simpleMessage("Please input your comments"),
     "pgDetailTxtComments" : MessageLookupByLibrary.simpleMessage("Comments"),

@@ -102,6 +102,42 @@
     "type": "text",
     "placeholders": {}
   },
+  "pgDetailBtnAccept": "接受承诺",
+  "@pgDetailBtnAccept": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnReject": "拒绝承诺",
+  "@pgDetailBtnReject": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnNegotiate": "讨价还价",
+  "@pgDetailBtnNegotiate": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnDone": "搞定",
+  "@pgDetailBtnDone": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnComment": "评论",
+  "@pgDetailBtnComment": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnCancel": "取消",
+  "@pgDetailBtnCancel": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "pgNewTitle": "新承诺",
   "@pgNewTitle": {
     "description": "",

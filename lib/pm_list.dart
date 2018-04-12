@@ -100,7 +100,7 @@ class PromiseListState extends State<PromiseListWidget> {
 
                 return new Padding(
                   padding: const EdgeInsets.all(5.0),
-                  child: new ChoiceCard(choice: choice, list: _filterList),
+                  child: new ChoiceCard(choice: choice, list: _filterList,userMe: userMe),
                 );
               }).toList(),
             ),
@@ -127,11 +127,12 @@ class Choice {
 }
 
 class ChoiceCard extends StatelessWidget {
-  const ChoiceCard({Key key, this.choice, this.list}) : super(key: key);
+  const ChoiceCard({Key key, this.choice, this.list,this.userMe}) : super(key: key);
 
   final Choice choice;
   // final ListModel list;
   final List<Promise> list;
+  final userMe;
   @override
   Widget build(BuildContext context) {
     // final wordPair = new WordPair.random();
@@ -157,7 +158,7 @@ class ChoiceCard extends StatelessWidget {
                 context,
                 new MaterialPageRoute(
                   builder: (BuildContext context) =>
-                      new PromiseDetailPage(list[index]),
+                      new PromiseDetailPage(list[index],userMe),
                 ));
           }),
       itemCount: list.length,

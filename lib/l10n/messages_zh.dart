@@ -19,9 +19,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "pgDetailBtnAccept" : MessageLookupByLibrary.simpleMessage("接受承诺"),
     "pgDetailBtnBad" : MessageLookupByLibrary.simpleMessage("拒绝"),
+    "pgDetailBtnCancel" : MessageLookupByLibrary.simpleMessage("取消"),
+    "pgDetailBtnComment" : MessageLookupByLibrary.simpleMessage("评论"),
+    "pgDetailBtnDone" : MessageLookupByLibrary.simpleMessage("搞定"),
     "pgDetailBtnGood" : MessageLookupByLibrary.simpleMessage("接受"),
+    "pgDetailBtnNegotiate" : MessageLookupByLibrary.simpleMessage("讨价还价"),
     "pgDetailBtnPass" : MessageLookupByLibrary.simpleMessage("算了"),
+    "pgDetailBtnReject" : MessageLookupByLibrary.simpleMessage("拒绝承诺"),
     "pgDetailTitle" : MessageLookupByLibrary.simpleMessage("承诺详情"),
     "pgDetailTxtCommentHint" : MessageLookupByLibrary.simpleMessage("写点什么..."),
     "pgDetailTxtComments" : MessageLookupByLibrary.simpleMessage("评价"),
@@ -37,7 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "pgNavWallet" : MessageLookupByLibrary.simpleMessage("钱包"),
     "pgNewInputBonus" : MessageLookupByLibrary.simpleMessage("奖赏"),
     "pgNewInputBonusHint" : MessageLookupByLibrary.simpleMessage("请选择奖赏"),
-    "pgNewInputComments" : MessageLookupByLibrary.simpleMessage("评价"),
+    "pgNewInputComments" : MessageLookupByLibrary.simpleMessage("备注"),
     "pgNewInputExpireDate" : MessageLookupByLibrary.simpleMessage("有效期"),
     "pgNewInputPromise" : MessageLookupByLibrary.simpleMessage("承诺"),
     "pgNewTabGive" : MessageLookupByLibrary.simpleMessage("慷慨给予"),

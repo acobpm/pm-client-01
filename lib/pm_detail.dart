@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'model/data.dart';
 import 'util.dart';
@@ -8,36 +7,38 @@ import 'pm_widget.dart';
 import 'localization.dart';
 
 class PromiseDetailPage extends StatefulWidget {
-  PromiseDetailPage(this.promise);
+  PromiseDetailPage(this.promise, this.currentUser);
 
   final Promise promise;
+  final String currentUser;
   @override
-  createState() => new PromiseDetailState(promise);
+  createState() => new PromiseDetailState(promise, currentUser);
 }
 
 class PromiseDetailState extends State<PromiseDetailPage> {
-  PromiseDetailState(this.item);
+  PromiseDetailState(this.item, this.currentUser);
   final Promise item;
-
+  final currentUser;
   //final _biggerFont = const TextStyle(fontSize: 18.0);
   final _textFont = const TextStyle(fontSize: 16.0);
   //final _smallFont = const TextStyle(fontSize: 12.0);
-  final _buttonTextFont = const TextStyle(fontSize: 18.0, color: Colors.white);
+  final _buttonTextFont = const TextStyle(fontSize: 14.0, color: Colors.white);
 
-  List<PromiseHistory>  _pmHistList = [];
+  List<PromiseHistory> _pmHistList = [];
   PromiseStatus _pmStatus;
   @override
   void initState() {
     super.initState();
 
-     _genTxHistoryList();
+    _genTxHistoryList();
   }
+
   _genTxHistoryList() async {
-      _pmStatus = await getPromiseStatus(item.promiseId);
-      _pmHistList = await getTxHistoryList(item.promiseId,item.status);
-      setState(() {
+    _pmStatus = await getPromiseStatus(item.promiseId);
+    _pmHistList = await getTxHistoryList(item.promiseId, item.status);
+    setState(() {
       //currently empty
-      });
+    });
   }
 
   @override
@@ -73,10 +74,12 @@ class PromiseDetailState extends State<PromiseDetailPage> {
                   padding:
                       const EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
                   child: new Row(
-              
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[_buildTxList(context), _buildAction(context)],
+                    children: <Widget>[
+                      _buildTxList(context),
+                      _buildAction(context)
+                    ],
                   ),
                 )
               ],
@@ -105,94 +108,161 @@ class PromiseDetailState extends State<PromiseDetailPage> {
     );
   }
 
- 
-
   Widget _buildItem(Promise item) {
-    return new CardItem(
-      item: item,
-          now: new DateTime.now(),
-          onTap: () {
-           
-          }
-    );
+    return new CardItem(item: item, now: new DateTime.now(), onTap: () {});
+  }
+
+  _buildButtonGroup(BuildContext context) {
+    var actionButtonList = {
+      "BTN_ARN": [
+        {
+          "name": "accept",
+          "text": PMLocalizations.of(context).pgDetailBtnAccept,
+          "color": Colors.green,
+          "icon": Icons.thumb_up
+        },
+        {
+          "name": "reject",
+          "text": PMLocalizations.of(context).pgDetailBtnReject,
+          "color": Colors.red,
+          "icon": Icons.thumb_down
+        },
+        {
+          "name": "negotiate",
+          "text": PMLocalizations.of(context).pgDetailBtnNegotiate,
+          "color": Colors.blue,
+          "icon": Icons.thumbs_up_down
+        },
+      ],
+      "BTN_GBP": [
+        {
+          "name": "good",
+          "text": PMLocalizations.of(context).pgDetailBtnGood,
+          "color": Colors.green,
+          "icon": Icons.thumb_up
+        },
+        {
+          "name": "bad",
+          "text": PMLocalizations.of(context).pgDetailBtnBad,
+          "color": Colors.red,
+          "icon": Icons.thumb_down
+        },
+        {
+          "name": "pass",
+          "text": PMLocalizations.of(context).pgDetailBtnPass,
+          "color": Colors.blue,
+          "icon": Icons.thumbs_up_down
+        },
+      ],
+      "BTN_DONE": [
+        {
+          "name": "done",
+          "text": PMLocalizations.of(context).pgDetailBtnDone,
+          "color": Colors.green,
+          "icon": Icons.done
+        }
+      ],
+      "BTN_COMMENT": [
+        {
+          "name": "comments",
+          "text": PMLocalizations.of(context).pgDetailBtnComment,
+          "color": Colors.green,
+          "icon": Icons.email
+        }
+      ],
+      "BTN_CANCEL": [
+        {
+          "name": "cancel",
+          "text": PMLocalizations.of(context).pgDetailBtnCancel,
+          "color": Colors.red,
+          "icon": Icons.cancel
+        }
+      ],
+    };
+    // find out which to use
+    var thisButtonList;
+
+    List<Widget> btnGroup = [];
+    if (_pmStatus != null) {
+      if (_pmStatus.nextId == currentUser){
+        switch (_pmStatus.status) {
+          case "NEW":
+          case "NEGOTIATING":
+            thisButtonList = actionButtonList["BTN_ARN"];
+            
+            break;
+          case "FULFILLING":
+            thisButtonList = actionButtonList["BTN_DONE"];
+            break;  
+          case "COMPLETED":
+            thisButtonList = actionButtonList["BTN_GBP"];
+            break; 
+            
+          default:
+        }
+      } else {
+         thisButtonList = actionButtonList["BTN_COMMENT"];  
+      }
+      //check if cancell button can be added
+      if (_pmStatus.creatorId == currentUser &&
+      ["NEW","NEGOTIATING"].contains(_pmStatus.status )){
+        thisButtonList.addAll(actionButtonList["BTN_CANCEL"]);
+      }
+      for (var btns in thisButtonList) {
+          btnGroup.add(
+            new Padding(
+              padding: new EdgeInsets.symmetric(vertical: 10.0),
+            ),
+          );
+          btnGroup.add(new RaisedButton(
+            
+            onPressed: () => _onPress(btns["name"]),
+            color: btns["color"],
+            child: new Row(
+              children: <Widget>[
+                new Icon(
+                  btns["icon"],
+                  color: Colors.white,
+                ),
+                new Text(" " + btns["text"], style: _buttonTextFont)
+              ],
+            ),
+          ));
+        } 
+    }
+    return btnGroup;
   }
 
   _buildAction(BuildContext context) {
     return new Expanded(
-      flex: 2,
+        flex: 2,
         child: new Container(
-        
-      child: new Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          new Align(
-            alignment: Alignment.centerLeft,
-            child: new Row(
-              children: <Widget>[
-                new Icon(
-                  Icons.email,
-                  color: Colors.brown,
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              new Align(
+                alignment: Alignment.centerLeft,
+                child: new Row(
+                  children: <Widget>[
+                    new Icon(
+                      Icons.email,
+                      color: Colors.brown,
+                    ),
+                    new Text(PMLocalizations.of(context).pgDetailTxtComments,
+                        style: _textFont),
+                  ],
                 ),
-                new Text(" "+PMLocalizations.of(context).pgDetailTxtComments, style: _textFont),
-              ],
-            ),
+              ),
+              new TextField(
+                  maxLines: 5,
+                  decoration: new InputDecoration(
+                    hintText:
+                        PMLocalizations.of(context).pgDetailTxtCommentHint,
+                  )),
+              new Column(children: _buildButtonGroup(context))
+            ],
           ),
-          new TextField(
-              maxLines: 5,
-              decoration: new InputDecoration(
-                hintText: PMLocalizations.of(context).pgDetailTxtCommentHint,
-              )),
-          new Padding(
-            padding: new EdgeInsets.symmetric(vertical: 10.0),
-          ),
-          new RaisedButton(
-            onPressed: _onPress,
-            color: Colors.green,
-            child: new Row(
-              children: <Widget>[
-                new Icon(
-                  Icons.thumb_up,
-                  color: Colors.white,
-                ),
-                new Text(" "+PMLocalizations.of(context).pgDetailBtnGood, style: _buttonTextFont)
-              ],
-            ),
-          ),
-          new Padding(
-            padding: new EdgeInsets.symmetric(vertical: 10.0),
-          ),
-          new RaisedButton(
-            onPressed: _onPress,
-            color: Colors.red,
-            child: new Row(
-              children: <Widget>[
-                new Icon(Icons.thumb_down, color: Colors.white),
-                new Text(
-                  " "+PMLocalizations.of(context).pgDetailBtnBad,
-                  style: _buttonTextFont,
-                )
-              ],
-            ),
-          ),
-          new Padding(
-            padding: new EdgeInsets.symmetric(vertical: 10.0),
-          ),
-          new RaisedButton(
-            onPressed: _onPress,
-            color: Colors.blue,
-            child: new Row(
-              children: <Widget>[
-                new Icon(Icons.thumbs_up_down, color: Colors.white),
-                new Text(
-                  " "+PMLocalizations.of(context).pgDetailBtnPass,
-                  style: _buttonTextFont,
-                )
-              ],
-            ),
-          )
-        ],
-      ),
-    ));
+        ));
   }
 
   _buildTxList(BuildContext context) {
@@ -206,9 +276,8 @@ class PromiseDetailState extends State<PromiseDetailPage> {
         flex: 3,
         child: new Container(
             height: 400.0,
-            
             alignment: Alignment.bottomCenter,
-            margin: const EdgeInsets.only(right:5.0),
+            margin: const EdgeInsets.only(right: 5.0),
             padding: const EdgeInsets.all(2.0),
             decoration:
                 new BoxDecoration(border: new Border.all(color: Colors.brown)),
@@ -219,7 +288,9 @@ class PromiseDetailState extends State<PromiseDetailPage> {
             )));
   }
 
-  void _onPress() {}
+  void _onPress(String actionName) {
+    print(actionName);
+  }
 }
 
 class EntryItem extends StatelessWidget {
@@ -274,7 +345,6 @@ class EntryItem extends StatelessWidget {
                 ],
               )
             ])),
-        
         new Padding(
           padding: new EdgeInsets.symmetric(vertical: 5.0),
         ),

@@ -145,6 +145,48 @@ class PMLocalizations {
       desc: '',
     );
   }
+  String get pgDetailBtnAccept {
+    return Intl.message(
+      'ACCEPT',
+      name: 'pgDetailBtnAccept',
+      desc: '',
+    );
+  }
+  String get pgDetailBtnReject {
+    return Intl.message(
+      'REJECT',
+      name: 'pgDetailBtnReject',
+      desc: '',
+    );
+  }
+  String get pgDetailBtnNegotiate {
+    return Intl.message(
+      'NEGOTIATE',
+      name: 'pgDetailBtnNegotiate',
+      desc: '',
+    );
+  }
+  String get pgDetailBtnDone {
+    return Intl.message(
+      'DONE',
+      name: 'pgDetailBtnDone',
+      desc: '',
+    );
+  }
+  String get pgDetailBtnComment {
+    return Intl.message(
+      'COMMENTS',
+      name: 'pgDetailBtnComment',
+      desc: '',
+    );
+  }
+  String get pgDetailBtnCancel {
+    return Intl.message(
+      'CANCEL',
+      name: 'pgDetailBtnCancel',
+      desc: '',
+    );
+  }
   String get pgNewTitle {
     return Intl.message(
       'New Promise',

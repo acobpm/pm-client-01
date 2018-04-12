@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2018-03-23T00:39:02.079061",
+  "@@last_modified": "2018-04-12T23:21:49.779764",
   "title": "hi",
   "@title": {
     "description": "Title for the Demo application",
@@ -98,6 +98,42 @@
   },
   "pgDetailBtnPass": "PASS",
   "@pgDetailBtnPass": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnAccept": "ACCEPT",
+  "@pgDetailBtnAccept": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnReject": "REJECT",
+  "@pgDetailBtnReject": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnNegotiate": "NEGOTIATE",
+  "@pgDetailBtnNegotiate": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnDone": "DONE",
+  "@pgDetailBtnDone": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnComment": "COMMENTS",
+  "@pgDetailBtnComment": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pgDetailBtnCancel": "CANCEL",
+  "@pgDetailBtnCancel": {
     "description": "",
     "type": "text",
     "placeholders": {}
