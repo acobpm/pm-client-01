@@ -16,6 +16,10 @@ class PromiseDetailPage extends StatefulWidget {
 }
 
 class PromiseDetailState extends State<PromiseDetailPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  String _txtComments;
+
   PromiseDetailState(this.item, this.currentUser);
   final Promise item;
   final currentUser;
@@ -44,9 +48,11 @@ class PromiseDetailState extends State<PromiseDetailPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
     print("Detail : " + item.brief);
 
     return new Scaffold(
+      key: _scaffoldKey,
       appBar: new AppBar(
         title: new Text(PMLocalizations.of(context).pgDetailTitle),
         actions: <Widget>[
@@ -255,6 +261,9 @@ class PromiseDetailState extends State<PromiseDetailPage> {
               ),
               new TextField(
                   maxLines: 5,
+                  onChanged: (String newValue) {
+                                _txtComments = newValue;
+                              },
                   decoration: new InputDecoration(
                     hintText:
                         PMLocalizations.of(context).pgDetailTxtCommentHint,
@@ -289,7 +298,73 @@ class PromiseDetailState extends State<PromiseDetailPage> {
   }
 
   void _onPress(String actionName) {
+    final ThemeData theme = Theme.of(context);
+    final TextStyle dialogTextStyle = theme.textTheme.subhead.copyWith(color: theme.textTheme.caption.color);
+
     print(actionName);
+    if (_txtComments == null ){
+        _scaffoldKey.currentState.showSnackBar(new SnackBar(
+          content: new Text('please input comments')
+        ));
+    } else {
+      showPMDialog<PMDialogAction>(
+                context: context,
+                actionName:actionName,
+                child: new AlertDialog(
+                  content: new Text(
+                    "Are you sure to submit?",
+                    style: dialogTextStyle
+                  ),
+                  actions: <Widget>[
+                    new FlatButton(
+                      child: const Text('CANCEL'),
+                      onPressed: () { Navigator.pop(context, PMDialogAction.cancel); }
+                    ),
+                    new FlatButton(
+                      child: const Text('Yes'),
+                      onPressed: () { Navigator.pop(context, PMDialogAction.yes); }
+                    )
+                  ]
+                )
+              );
+    }
+  }
+   void showPMDialog<T>({ BuildContext context, String actionName, Widget child }) {
+    showDialog<T>(
+      context: context, 
+      builder: (BuildContext context) => child,
+    )
+    .then<void>((T value) { // The value passed to Navigator.pop() or null.
+      if (value != null) {
+
+      _updatePromise(actionName);    
+
+    
+
+        _scaffoldKey.currentState.showSnackBar(new SnackBar(
+         content: new Text('You selected: $value')
+        ));
+      }
+    });
+  }
+  void _updatePromise(String action) async{
+    var jsonMap = {
+      "\$class": "com.acob.promiseme.NegotiatePromise",
+      "brief": item.brief,
+      "expectation":" ",
+      "bonus": 0,
+      "loveRate": 0,
+      "deadline": "1970-01-01T00:00:00.000Z",
+      "promiseId": item.promiseId,
+      "promiseFromId": item.promiseFromId,
+      "promiseToId": item.promiseToId,
+      "currentId": currentUser,
+      "message": _txtComments,  
+    };
+    await updatePromise(tNegotiatePromise, jsonMap);
+    setState(() {
+          
+        });
   }
 }
 
@@ -369,4 +444,13 @@ class EntryItem extends StatelessWidget {
       ],
     );
   }
+}
+
+enum PMDialogAction {
+  cancel,
+  discard,
+  disagree,
+  agree,
+  yes,
+  no,
 }

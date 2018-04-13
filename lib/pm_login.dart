@@ -27,7 +27,7 @@ class LoginState extends State<LoginWidget> {
     setState((){
       _loginUserList = listCouples; 
     });
-    
+     
   }
   Image _getPersonImg(String user){
     var img; 

@@ -15,7 +15,9 @@ const tNegociate = "NegotiatePromise";
 const tConfirm = "ConfirmPromise";
 const tFulfill = "FulfillPromise";
 const tMakePromise = "MakePromise";
-
+const tNegotiatePromise = "NegotiatePromise";
+const tFulfillPromise  = "FulfillPromise ";
+const tCompletePromise  = "CompletePromise ";
 Future<String> getRESTJsonString(String url) async {
 var httpClient = new HttpClient();
 
@@ -198,6 +200,18 @@ void addNewPromise(Map<String, dynamic> jsonBody) async{
    print(e.toString());
   }
 }
+void updatePromise(String txnType, Map<String, dynamic> jsonBody) async{
+  try {
+    HttpClient client = new HttpClient();
+    final _url = apiUrl + nsPM + txnType;
+    var response = await performApiRequest(client, _url, jsonBody);
+   
+  } catch (e) {
+   // return "Error";
+   print(e.toString());
+  }
+}
+
 Future<Map<String, dynamic>> performApiRequest(
     HttpClient client, String url, Map<String, dynamic> jsonBody,
     [String accessToken]) async {
