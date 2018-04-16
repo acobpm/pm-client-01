@@ -11,13 +11,11 @@ const pCouple = "Couple";
 const aPromise = "PromiseMe";
 const aPromiseStatus = "PromiseStatus";
 const cResource = "resource";
-const tNegociate = "NegotiatePromise";
-const tConfirm = "ConfirmPromise";
-const tFulfill = "FulfillPromise";
+const tConfirmPromise = "ConfirmPromise";
 const tMakePromise = "MakePromise";
 const tNegotiatePromise = "NegotiatePromise";
-const tFulfillPromise  = "FulfillPromise ";
-const tCompletePromise  = "CompletePromise ";
+const tFulfillPromise  = "FulfillPromise";
+const tCompletePromise  = "CompletePromise";
 Future<String> getRESTJsonString(String url) async {
 var httpClient = new HttpClient();
 
@@ -122,6 +120,18 @@ Future<List<Promise>> getPMList(String personId) async{
   return _retList; 
 }
 
+Future<Promise> getPromiseById(String pmId) async{
+  
+  //var _filter = '?filter={"where":{"promiseId": "$pmId"}}';
+  var _url = Uri.encodeFull(apiUrl + nsPM + aPromiseStatus+"/"+pmId);
+  var strStatus = await getRESTJsonString(_url);
+  if (strStatus!='Error'){
+      Map map = toMap(strStatus);
+      return new Promise.fromJson(map);
+  } else {
+    return null;
+  }
+}
 Future<PromiseStatus> getPromiseStatus(String pmId) async{
   
   //var _filter = '?filter={"where":{"promiseId": "$pmId"}}';
@@ -138,7 +148,7 @@ Future<PromiseStatus> getPromiseStatus(String pmId) async{
 
 }
 Future<List<PromiseHistory>> getTxHistoryList(String pmId, String currenStatus) async{
-  var _txhisUrl = apiUrl + nsPM + tNegociate;
+  var _txhisUrl = apiUrl + nsPM + tNegotiatePromise;
   //final _filter = "?filter=%7B%22where%22%3A%7B%22promiseId%22%3A%22"+pmId+"%22%7D%7D";
   //final _filter = '?filter={"where":{"promiseId":"'+pmId+'"}}"';
   
@@ -147,8 +157,26 @@ Future<List<PromiseHistory>> getTxHistoryList(String pmId, String currenStatus) 
   List<PromiseHistory> combinedList = [];
 List<PromiseHistory> currentList = [];
   switch (currenStatus) {
+    case "CLOSED":
+      _txhisUrl = apiUrl + nsPM + tCompletePromise;
+      _url = Uri.encodeFull(_txhisUrl+_filter);
+      currentList = await getPromiseHistoryListByUrl(_url,"CLOSED");
+      if (currentList!=null && currentList.length>0){
+        combinedList.insertAll(combinedList.length, currentList);
+      }
+      continue COMPLETED;
+    COMPLETED:
+    case "COMPLETED":
+      _txhisUrl = apiUrl + nsPM + tFulfillPromise;
+      _url = Uri.encodeFull(_txhisUrl+_filter);
+      currentList = await getPromiseHistoryListByUrl(_url,"COMPLETED");
+      if (currentList!=null && currentList.length>0){
+        combinedList.insertAll(combinedList.length, currentList);
+      }
+      continue FULFILLING;
+    FULFILLING:  
     case "FULFILLING":
-      _txhisUrl = apiUrl + nsPM + tConfirm;
+      _txhisUrl = apiUrl + nsPM + tConfirmPromise;
       _url = Uri.encodeFull(_txhisUrl+_filter);
       currentList = await getPromiseHistoryListByUrl(_url,"FULFILLING");
       if (currentList!=null && currentList.length>0){
@@ -158,7 +186,7 @@ List<PromiseHistory> currentList = [];
     NEGOTIATION:
     case "NEGOTIATING":
       
-      _txhisUrl = apiUrl + nsPM + tNegociate;
+      _txhisUrl = apiUrl + nsPM + tNegotiatePromise;
       _url = Uri.encodeFull(_txhisUrl+_filter);
       currentList = await getPromiseHistoryListByUrl(_url,"NEGOTIATING");
       if (currentList!=null && currentList.length>0){

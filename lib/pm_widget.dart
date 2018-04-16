@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
+import 'package:progress_hud/progress_hud.dart';
 
 import 'model/data.dart';
 import 'util.dart';
@@ -32,21 +33,26 @@ class CardItem extends StatelessWidget {
   }
 
   Icon _getMood(Duration d) {
+    const _iconSize = 12.0 ; 
     if (d != null) {
       var hours = d.inHours;
       if (hours > 24) {
         return const Icon(Icons.sentiment_very_satisfied,
+           size:_iconSize,
             color: Colors.greenAccent);
       } else if (hours > 0) {
-        return const Icon(Icons.sentiment_neutral, color: Colors.orangeAccent);
+        return const Icon(Icons.sentiment_neutral, 
+                    size:_iconSize,
+                    color: Colors.orangeAccent);
       } else {
         return const Icon(
           Icons.sentiment_dissatisfied,
+          size:_iconSize,
           color: Colors.redAccent,
         );
       }
     } else {
-      return const Icon(Icons.sentiment_very_satisfied);
+      return const Icon(Icons.sentiment_very_satisfied, size:_iconSize,color: Colors.greenAccent);
     }
   }
 
@@ -73,16 +79,17 @@ class CardItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                 new SizedBox(
-                  height: 90.0,
-                  width: 90.0,
+                  height: 60.0,
+                  width: 60.0,
                   child: new FittedBox(
                     fit: BoxFit.contain, // otherwise the logo will be tiny
+
                     child: _getMood(d),
                   ),
                 ),
                 new Expanded(
                     child: new Container(
-                  padding: new EdgeInsets.all(2.0),
+                  padding: new EdgeInsets.all(4.0),
                   child: new Text('${item.brief}',
                       textAlign: TextAlign.left, style: _textFont),
                 )),
@@ -254,3 +261,10 @@ class _InputDropdown extends StatelessWidget {
       child:img,
     );
   }
+
+  var progressHUD = new ProgressHUD(
+        backgroundColor: Colors.black12,
+        color: Colors.white,
+        containerColor: Colors.blue,
+        borderRadius: 5.0,
+      );

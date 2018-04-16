@@ -17,6 +17,7 @@ class PromiseDetailPage extends StatefulWidget {
 
 class PromiseDetailState extends State<PromiseDetailPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final TextEditingController _controller = new TextEditingController();
 
   String _txtComments;
 
@@ -38,6 +39,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
   }
 
   _genTxHistoryList() async {
+   // var itemNew = await getPromiseById(item.promiseId);
     _pmStatus = await getPromiseStatus(item.promiseId);
     _pmHistList = await getTxHistoryList(item.promiseId, item.status);
     setState(() {
@@ -203,7 +205,9 @@ class PromiseDetailState extends State<PromiseDetailPage> {
           case "COMPLETED":
             thisButtonList = actionButtonList["BTN_GBP"];
             break; 
-            
+          case "CLOSED":
+            thisButtonList = actionButtonList["BTN_COMMENT"];
+            break;   
           default:
         }
       } else {
@@ -261,6 +265,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
               ),
               new TextField(
                   maxLines: 5,
+                  controller: _controller,
                   onChanged: (String newValue) {
                                 _txtComments = newValue;
                               },
@@ -336,35 +341,101 @@ class PromiseDetailState extends State<PromiseDetailPage> {
     )
     .then<void>((T value) { // The value passed to Navigator.pop() or null.
       if (value != null) {
+        var txName ;
+        var jsonMap  ;
+        var nextStatus ; 
+        switch (actionName) {
+          case "negotiate":
+            txName = tNegotiatePromise;
+            jsonMap = {
+              "\$class": nsPM+txName,
+              "brief": item.brief,
+              "expectation":" ",
+              "bonus": 0,
+              "loveRate": 0,
+              "deadline": "1970-01-01T00:00:00.000Z",
+              "promiseId": item.promiseId,
+              "promiseFromId": item.promiseFromId,
+              "promiseToId": item.promiseToId,
+              "currentId": currentUser,
+              "message": _txtComments,  
+            };
+            nextStatus = item.status; //negotiate
+            break;
+          case "accept":
+            txName = tConfirmPromise;
+            
+            jsonMap = 
+            {
+              "\$class": nsPM+txName,
+              "promiseId": item.promiseId,
+              "promiseFromId": item.promiseFromId,
+              "promiseToId": item.promiseToId,
+              "currentId": currentUser,
+              "message": _txtComments,
+            };          
+            nextStatus = "FULFILLING";  
+            break;
+          case "done":
+          
+            txName = tFulfillPromise;
+            
+            jsonMap = 
+            {
+              "\$class": nsPM+txName,
+              "promiseId": item.promiseId,
+               "implementTime": formatDate(new DateTime.now(),"R"),
+              "promiseFromId": item.promiseFromId,
+              "promiseToId": item.promiseToId,
+              "currentId": currentUser,
+              "message": _txtComments,
+            }; 
+            nextStatus = "COMPLETED";
+            break;
+           case "good":
+           case "bad":
+           case "pass":
+            txName = tCompletePromise;
+            
+            jsonMap = 
+            {
+              "\$class": nsPM+txName,
+              "promiseId": item.promiseId,
+               "result": actionName.toUpperCase(),
+              "promiseFromId": item.promiseFromId,
+              "promiseToId": item.promiseToId,
+              "currentId": currentUser,
+              "message": _txtComments,
+            };          
+            nextStatus = "CLOSED";
+            break;
+          default:
+        }
+        if (txName !=null){
+         _updatePromise(txName,jsonMap,nextStatus);    
+        }
+      
 
-      _updatePromise(actionName);    
-
-    
-
-        _scaffoldKey.currentState.showSnackBar(new SnackBar(
-         content: new Text('You selected: $value')
-        ));
+        // _scaffoldKey.currentState.showSnackBar(new SnackBar(
+        //  content: new Text('You selected: $value')
+        //));
       }
     });
   }
-  void _updatePromise(String action) async{
-    var jsonMap = {
-      "\$class": "com.acob.promiseme.NegotiatePromise",
-      "brief": item.brief,
-      "expectation":" ",
-      "bonus": 0,
-      "loveRate": 0,
-      "deadline": "1970-01-01T00:00:00.000Z",
-      "promiseId": item.promiseId,
-      "promiseFromId": item.promiseFromId,
-      "promiseToId": item.promiseToId,
-      "currentId": currentUser,
-      "message": _txtComments,  
-    };
-    await updatePromise(tNegotiatePromise, jsonMap);
-    setState(() {
-          
-        });
+  
+  void _updatePromise(String txName ,Map jsonMap,String nextStatus) async{
+    
+    showDialog(context: context,
+    child: progressHUD);
+
+    await updatePromise(txName, jsonMap);
+    
+    item.status = nextStatus;
+    
+    await _genTxHistoryList();
+    _controller.text = "";
+    Navigator.pop(context);
+
   }
 }
 

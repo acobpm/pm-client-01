@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:progress_hud/progress_hud.dart';
+
 
 import 'model/data.dart';
 import 'pm_widget.dart';
@@ -224,12 +224,7 @@ class PromiseMeState extends State<PromiseMePage> {
     print("make promise :-->");
   
 
-  var progress = new ProgressHUD(
-        backgroundColor: Colors.black12,
-        color: Colors.white,
-        containerColor: Colors.blue,
-        borderRadius: 5.0,
-      );
+  
     DateTime dt = _fromDate.add(new Duration(minutes: _fromTime.hour*60+_fromTime.minute));
     var jsonMap = {
       "\$class": "com.acob.promiseme.MakePromise",
@@ -244,7 +239,7 @@ class PromiseMeState extends State<PromiseMePage> {
 
     };
     showDialog(context: context,
-    child: progress);
+    child: progressHUD);
     await addNewPromise(jsonMap);
     Navigator.pop(context);
     Navigator.pop(context);
