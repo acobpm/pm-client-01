@@ -5,7 +5,8 @@ import '../util.dart';
 import '../model/data.dart';
 
 //const apiUrl = 'http://192.168.1.17:3000/api/';
-const apiUrl = 'http://192.168.1.8:3000/api/';
+//const apiUrl = 'http://192.168.1.8:3000/api/';
+const apiUrl = 'http://ec2-18-221-194-119.us-east-2.compute.amazonaws.com:3000/api/';
 const nsPM = 'com.acob.promiseme.';
 const pCouple = "Couple";
 const aPromise = "PromiseMe";
