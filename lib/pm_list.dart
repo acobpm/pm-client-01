@@ -18,25 +18,27 @@ class PromiseListWidget extends StatefulWidget {
   PromiseListWidget(this.currentUser);
   @override
   createState() => new PromiseListState(currentUser);
-  final String currentUser;
+  final Couple currentUser;
 }
 
 class PromiseListState extends State<PromiseListWidget> {
-  PromiseListState(this.userMe);
+  PromiseListState(this.currentUser);
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   var _pmList = <Promise>[];
   var _mPmList = <Promise>[];
   var _hPmList = <Promise>[];
-
-  final String userMe; //current user
+  final Couple currentUser;
+  String userMe ;//current user
+  String userPartner ;
 
   List<Choice> choices;
 
   @override
   void initState() {
     super.initState();
-
+    userMe = currentUser.personId;
+    
     _getPMList();
   }
 
@@ -113,7 +115,7 @@ class PromiseListState extends State<PromiseListWidget> {
                       context,
                       new MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            new PromiseMePage(null),
+                            new PromiseMePage(currentUser),
                       ));
                 })));
   }

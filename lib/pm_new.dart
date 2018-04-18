@@ -11,16 +11,16 @@ import 'service/remote.dart';
 import 'util.dart';
 
 class PromiseMePage extends StatefulWidget {
-  PromiseMePage(this.promise);
+  PromiseMePage(this.currentUser);
 
-  final Promise promise;
+  final Couple currentUser;
   @override
-  createState() => new PromiseMeState(promise);
+  createState() => new PromiseMeState(currentUser);
 }
 
-class PromiseMeState extends State<PromiseMePage> {
-  PromiseMeState(this.item);
-  final Promise item;
+class PromiseMeState extends State<PromiseMePage> with SingleTickerProviderStateMixin{
+  PromiseMeState(this.currentUser);
+  final Couple currentUser;
 
   List<Choice> choices;
 
@@ -37,16 +37,29 @@ class PromiseMeState extends State<PromiseMePage> {
 
   String _selBonus = '10';
   int _loveValue = 0;
+  String _currentTab;
+  TabController _tabController;
+ 
+ @override
+  void initState() {
+    super.initState();
+   
+    _tabController = new TabController(vsync: this, length: 2);
+  }
+
+ @override
+ void dispose() {
+   _tabController.dispose();
+   super.dispose();
+ }
 
   @override
   Widget build(BuildContext context) {
-    choices = new List<Choice>();
+      choices = new List<Choice>();
     choices.add(new Choice(title: PMLocalizations.of(context).pgNewTabGive));
     choices.add(new Choice(title: PMLocalizations.of(context).pgNewTabRequest));
 
-    return new DefaultTabController(
-        length: choices.length,
-        child: new Scaffold(
+        return new Scaffold(
             appBar: new AppBar(
               title: new Text(PMLocalizations.of(context).pgNewTitle),
               actions: <Widget>[
@@ -55,8 +68,12 @@ class PromiseMeState extends State<PromiseMePage> {
               bottom: new TabBar(
                 isScrollable: true,
                 labelStyle: _biggerFont,
+                controller: _tabController,
                 tabs: choices.map((Choice choice) {
+
+                 
                   return new Tab(
+
                     text: choice.title,
                     // icon: new Icon(choice.icon),
                   );
@@ -64,6 +81,7 @@ class PromiseMeState extends State<PromiseMePage> {
               ),
             ),
             body: new TabBarView(
+              controller: _tabController,
               children: choices.map((Choice choice) {
                 return new Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -131,18 +149,18 @@ class PromiseMeState extends State<PromiseMePage> {
                             ),
                           ),
                           _buildIconButton(context),
-                          new TextField(
-                            decoration: new InputDecoration(
-                              labelText: PMLocalizations
-                                  .of(context)
-                                  .pgNewInputComments,
-                            ),
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .display1
-                                .copyWith(fontSize: 20.0),
-                          ),
+                          // new TextField(
+                          //   decoration: new InputDecoration(
+                          //     labelText: PMLocalizations
+                          //         .of(context)
+                          //         .pgNewInputComments,
+                          //   ),
+                          //   style: Theme
+                          //       .of(context)
+                          //       .textTheme
+                          //       .display1
+                          //       .copyWith(fontSize: 20.0),
+                          // ),
                         ],
                       ),
                     ),
@@ -155,8 +173,9 @@ class PromiseMeState extends State<PromiseMePage> {
                 elevation: 0.0,
                 child: new Icon(Icons.done),
                 onPressed: () {
-                  _makePromise();
-                })));
+                  //print(choices[_tabController.index].title);
+                  _makePromise(_tabController.index);
+                }));
   }
 
   bool iconButtonToggle = false;
@@ -220,23 +239,32 @@ class PromiseMeState extends State<PromiseMePage> {
     );
   }
 
-  Future _makePromise() async {
+  Future _makePromise(int tabIndex) async {
     print("make promise :-->");
   
-
+    String fromId ,toId;
+    switch (tabIndex) {
+      case 1: // request
+        fromId = currentUser.parnterId;
+        toId = currentUser.personId;
+        break;
+      case 0:// give
+      default:
+      fromId = currentUser.personId;
+      toId = currentUser.parnterId;
+    }
   
     DateTime dt = _fromDate.add(new Duration(minutes: _fromTime.hour*60+_fromTime.minute));
     var jsonMap = {
       "\$class": "com.acob.promiseme.MakePromise",
-      "promiseFromId": "Mason",
-      "promiseToId": "Vicki",
-      "creatorId": "Mason",
+      "promiseFromId": fromId,
+      "promiseToId": toId,
+      "creatorId": currentUser.personId,
       "brief": _txtBrief,
-      "expectation": "ok",
+      "expectation": " ",
       "bonus":_selBonus,
       "loveRate": _loveValue,
       "deadline": formatDate(dt,"R")
-
     };
     showDialog(context: context,
     child: progressHUD);
@@ -252,52 +280,3 @@ class Choice {
   // final IconData icon;
 }
 
-// class ChoiceCard extends StatelessWidget {
-//   const ChoiceCard({Key key, this.choice}) : super(key: key);
-
-//   final Choice choice;
-
-//   Widget _buildDetail(BuildContext context, Promise item) {
-//     return new Column(children: <Widget>[
-//       new ListTile(
-//         leading: const Icon(Icons.add_box),
-//         title: new TextField(
-//           maxLines: 3,
-//           decoration: new InputDecoration(
-//             border: new OutlineInputBorder().copyWith(),
-//             hintText:  PMLocalizations.of(context).pgNewInputPromiseHint,
-//           ),
-//         ),
-//       ),
-//       new Padding(
-//         padding: new EdgeInsets.symmetric(vertical: 10.0),
-//         child: new Divider(
-//           height: 1.0,
-//         ),
-//       ),
-//       new ListTile(
-//         leading: const Icon(Icons.date_range),
-//         title: new TextField(
-//           maxLines: 2,
-//           decoration: new InputDecoration(
-//             hintText: "Expire Date",
-//           ),
-//         ),
-//       ),
-//     ]);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // final wordPair = new WordPair.random();
-//     // return new Text(wordPair.asPascalCase);
-//     return new Card(
-//         // body: _buildList(),
-//         child: new Column(
-//       mainAxisAlignment: MainAxisAlignment.start,
-//       children: <Widget>[_buildDetail(context, null)],
-//     ));
-//   }
-
-// //}
-// }

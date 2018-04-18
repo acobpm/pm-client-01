@@ -1,6 +1,37 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+class Couple{
+  Couple ({
+    this.personId,
+  this.partnerNickName,
+  this.parnterId,
+  this.firstName,
+  this.lastName,
+  this.gender,
+  this.totalLove,
+  this.balance
+  });
+  String personId;
+  String partnerNickName;
+  String parnterId;
+  String firstName;
+  String lastName;
+  String gender;
+  int totalLove;
+  double balance;
+ Couple.fromJson(Map json) {
+  this.personId = json['personId'];
+  this.partnerNickName = json['promiseId'];
+  this.parnterId = _getPersonIdByResource(json['partner']);
+  this.firstName = json['firstName'];
+  this.lastName = json['lastName'];
+  this.gender = json['gender'];
+  this.totalLove = json['totalLove'];
+  this.balance = json['balance'].toDouble();
+  }
+}
+
 class Promise {
   Promise(
       {this.promiseId,

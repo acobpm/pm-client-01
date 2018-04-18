@@ -73,7 +73,7 @@ Future<String> getConnection() async {
     return new Future.value(result) ; 
 }
 Future<List<String>> getCoupleList() async{
-  final _url = apiUrl + nsPM + pCouple;
+  final _url = apiUrl + nsPM + pCouple; 
   var _retList = new List<String>(); 
   try {
   var str = await getRESTJsonString(_url);
@@ -89,6 +89,25 @@ Future<List<String>> getCoupleList() async{
     print(exception.toString());
   }
   return _retList; 
+}
+Future<Couple> getCouple(String personName) async{
+  final _url = apiUrl + nsPM + pCouple + "/"  + personName; 
+  Couple person ; 
+  try {
+  var str = await getRESTJsonString(_url);
+  if (str !='Error'){ 
+    var map = toMap(str);
+    if (map!=null){
+      person = Couple.fromJson(map);
+    }
+  } else {
+    return null;
+  }
+  } catch(exception){
+    print(exception.toString());
+    return null;
+  }
+  return person; 
 }
 
 Future<List<Promise>> getPMList(String personId) async{
