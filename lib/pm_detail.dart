@@ -24,6 +24,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
   PromiseDetailState(this.item, this.currentUser);
   final Promise item;
   final currentUser;
+  String userMe ; 
   //final _biggerFont = const TextStyle(fontSize: 18.0);
   final _textFont = const TextStyle(fontSize: 16.0);
   //final _smallFont = const TextStyle(fontSize: 12.0);
@@ -34,7 +35,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
   @override
   void initState() {
     super.initState();
-
+    userMe = currentUser.personId;
     _genTxHistoryList();
   }
 
@@ -192,7 +193,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
 
     List<Widget> btnGroup = [];
     if (_pmStatus != null) {
-      if (_pmStatus.nextId == currentUser){
+      if (_pmStatus.nextId == userMe){
         switch (_pmStatus.status) {
           case "NEW":
           case "NEGOTIATING":
@@ -214,7 +215,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
          thisButtonList = actionButtonList["BTN_COMMENT"];  
       }
       //check if cancell button can be added
-      if (_pmStatus.creatorId == currentUser &&
+      if (_pmStatus.creatorId == userMe &&
       ["NEW","NEGOTIATING"].contains(_pmStatus.status )){
         thisButtonList.addAll(actionButtonList["BTN_CANCEL"]);
       }
@@ -357,7 +358,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
               "promiseId": item.promiseId,
               "promiseFromId": item.promiseFromId,
               "promiseToId": item.promiseToId,
-              "currentId": currentUser,
+              "currentId": userMe,
               "message": _txtComments,  
             };
             nextStatus = item.status; //negotiate
@@ -371,7 +372,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
               "promiseId": item.promiseId,
               "promiseFromId": item.promiseFromId,
               "promiseToId": item.promiseToId,
-              "currentId": currentUser,
+              "currentId": userMe,
               "message": _txtComments,
             };          
             nextStatus = "FULFILLING";  
@@ -387,7 +388,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
                "implementTime": formatDate(new DateTime.now(),"R"),
               "promiseFromId": item.promiseFromId,
               "promiseToId": item.promiseToId,
-              "currentId": currentUser,
+              "currentId": userMe,
               "message": _txtComments,
             }; 
             nextStatus = "COMPLETED";
@@ -404,7 +405,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
                "result": actionName.toUpperCase(),
               "promiseFromId": item.promiseFromId,
               "promiseToId": item.promiseToId,
-              "currentId": currentUser,
+              "currentId": userMe,
               "message": _txtComments,
             };          
             nextStatus = "CLOSED";
