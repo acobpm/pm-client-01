@@ -106,7 +106,7 @@ class PromiseListState extends State<PromiseListWidget> {
                 );
               }).toList(),
             ),
-            bottomNavigationBar: new PromiseNavBottom(0),
+            bottomNavigationBar: new PromiseNavBottom(0,currentUser),
             floatingActionButton: new FloatingActionButton(
                 elevation: 0.0,
                 child: new Icon(Icons.add),

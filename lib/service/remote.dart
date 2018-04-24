@@ -240,6 +240,7 @@ Future<List<PromiseHistory>> getPromiseHistoryListByUrl(String url, String histo
 void addNewPromise(Map<String, dynamic> jsonBody) async{
   try {
     HttpClient client = new HttpClient();
+   
     final _url = apiUrl + nsPM + tMakePromise;
     var response = await performApiRequest(client, _url, jsonBody);
     print (response.toString());
@@ -264,6 +265,7 @@ Future<Map<String, dynamic>> performApiRequest(
     HttpClient client, String url, Map<String, dynamic> jsonBody,
     [String accessToken]) async {
   final String requestBody = json.encode(jsonBody);
+  
   HttpClientRequest request = await client.postUrl(Uri.parse(url))
     //..headers.add(HttpHeaders.ACCEPT, ContentType.JSON)
     ..headers.contentType = ContentType.JSON

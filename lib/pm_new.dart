@@ -168,7 +168,7 @@ class PromiseMeState extends State<PromiseMePage> with SingleTickerProviderState
                 );
               }).toList(),
             ),
-            bottomNavigationBar: new PromiseNavBottom(0),
+            bottomNavigationBar: new PromiseNavBottom(0,currentUser),
             floatingActionButton: new FloatingActionButton(
                 elevation: 0.0,
                 child: new Icon(Icons.done),

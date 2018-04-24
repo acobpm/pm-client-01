@@ -10,7 +10,7 @@ class PromiseDetailPage extends StatefulWidget {
   PromiseDetailPage(this.promise, this.currentUser);
 
   final Promise promise;
-  final String currentUser;
+  final Couple currentUser;
   @override
   createState() => new PromiseDetailState(promise, currentUser);
 }
@@ -62,7 +62,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
         ],
       ),
       body: _buildDetail(item),
-      bottomNavigationBar: new PromiseNavBottom(0),
+      bottomNavigationBar: new PromiseNavBottom(0,currentUser),
     );
   }
 
