@@ -361,7 +361,7 @@ class PromiseDetailState extends State<PromiseDetailPage> {
               "currentId": userMe,
               "message": _txtComments,  
             };
-            nextStatus = item.status; //negotiate
+            nextStatus = 'NEGOTIATING' ;//item.status; //negotiate
             break;
           case "accept":
             txName = tConfirmPromise;

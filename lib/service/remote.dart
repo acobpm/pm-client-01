@@ -270,7 +270,7 @@ Future<Map<String, dynamic>> performApiRequest(
     //..headers.add(HttpHeaders.ACCEPT, ContentType.JSON)
     ..headers.contentType = ContentType.JSON
     ..headers.contentLength = requestBody.length
-    ..headers.chunkedTransferEncoding = false;
+    ..headers.chunkedTransferEncoding = true;
   if (accessToken != null) {
     request.headers.add(HttpHeaders.AUTHORIZATION, 'Bearer $accessToken');
   }
