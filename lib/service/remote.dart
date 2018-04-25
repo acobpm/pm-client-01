@@ -112,6 +112,9 @@ Future<Couple> getCouple(String personName) async{
 
 Future<List<Promise>> getPMList(String personId) async{
   //get status list
+
+
+var _filter = '{"where":{"or":[{"promiseFrom":"resource:com.acob.promiseme.Couple#$personId"},{"promiseTo":"resource:com.acob.promiseme.Couple#$personId"}]}}';
   final _statusUrl= apiUrl + nsPM + aPromiseStatus;
   Map<String,String> statusMap ;
   var strStatus = await getRESTJsonString(_statusUrl);
@@ -124,8 +127,11 @@ Future<List<Promise>> getPMList(String personId) async{
   }
 
 
+
   //get promise list 
-  final _url = apiUrl + nsPM + aPromise;
+  final _url = apiUrl + nsPM + aPromise + '?filter=' +Uri.encodeQueryComponent(_filter);
+  
+  //final _url =apiUrl + nsPM + aPromise + _filter;
   var _retList = new List<Promise>();
   var str = await getRESTJsonString(_url);
   if (str !='Error'){

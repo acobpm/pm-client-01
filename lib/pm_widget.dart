@@ -7,13 +7,11 @@ import 'package:progress_hud/progress_hud.dart';
 import 'model/data.dart';
 import 'util.dart';
 
-
 class CardItem extends StatelessWidget {
-
   final _textFont = const TextStyle(fontSize: 16.0);
   final _smallFont = const TextStyle(fontSize: 12.0);
   const CardItem(
-      {Key key,      
+      {Key key,
       this.onTap,
       @required this.item,
       this.selected: false,
@@ -33,26 +31,25 @@ class CardItem extends StatelessWidget {
   }
 
   Icon _getMood(Duration d) {
-    const _iconSize = 12.0 ; 
+    const _iconSize = 12.0;
     if (d != null) {
       var hours = d.inHours;
       if (hours > 24) {
         return const Icon(Icons.sentiment_very_satisfied,
-           size:_iconSize,
-            color: Colors.greenAccent);
+            size: _iconSize, color: Colors.greenAccent);
       } else if (hours > 0) {
-        return const Icon(Icons.sentiment_neutral, 
-                    size:_iconSize,
-                    color: Colors.orangeAccent);
+        return const Icon(Icons.sentiment_neutral,
+            size: _iconSize, color: Colors.orangeAccent);
       } else {
         return const Icon(
           Icons.sentiment_dissatisfied,
-          size:_iconSize,
+          size: _iconSize,
           color: Colors.redAccent,
         );
       }
     } else {
-      return const Icon(Icons.sentiment_very_satisfied, size:_iconSize,color: Colors.greenAccent);
+      return const Icon(Icons.sentiment_very_satisfied,
+          size: _iconSize, color: Colors.greenAccent);
     }
   }
 
@@ -73,7 +70,7 @@ class CardItem extends StatelessWidget {
               // child: new Center(
               //   child: new Text(' ${item.title}', style: _biggerFont),
               //
-               
+
               child: new Row(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,14 +138,14 @@ class CardItem extends StatelessWidget {
 }
 
 class DateTimePicker extends StatelessWidget {
-  const DateTimePicker({
-    Key key,
-    this.labelText,
-    this.selectedDate,
-    this.selectedTime,
-    this.selectDate,
-    this.selectTime
-  }) : super(key: key);
+  const DateTimePicker(
+      {Key key,
+      this.labelText,
+      this.selectedDate,
+      this.selectedTime,
+      this.selectDate,
+      this.selectTime})
+      : super(key: key);
 
   final String labelText;
   final DateTime selectedDate;
@@ -158,27 +155,23 @@ class DateTimePicker extends StatelessWidget {
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: new DateTime(2015, 8),
-      lastDate: new DateTime(2101)
-    );
-    if (picked != null && picked != selectedDate)
-      selectDate(picked);
+        context: context,
+        initialDate: selectedDate,
+        firstDate: new DateTime(2015, 8),
+        lastDate: new DateTime(2101));
+    if (picked != null && picked != selectedDate) selectDate(picked);
   }
 
   Future<Null> _selectTime(BuildContext context) async {
-    final TimeOfDay picked = await showTimePicker(
-      context: context,
-      initialTime: selectedTime
-    );
-    if (picked != null && picked != selectedTime)
-      selectTime(picked);
+    final TimeOfDay picked =
+        await showTimePicker(context: context, initialTime: selectedTime);
+    if (picked != null && picked != selectedTime) selectTime(picked);
   }
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle valueStyle = Theme.of(context).textTheme.title.copyWith(fontSize: 16.0);
+    final TextStyle valueStyle =
+        Theme.of(context).textTheme.title.copyWith(fontSize: 16.0);
     return new Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
@@ -188,7 +181,9 @@ class DateTimePicker extends StatelessWidget {
             labelText: labelText,
             valueText: new DateFormat.yMMMd().format(selectedDate),
             valueStyle: valueStyle,
-            onPressed: () { _selectDate(context); },
+            onPressed: () {
+              _selectDate(context);
+            },
           ),
         ),
         const SizedBox(width: 12.0),
@@ -197,21 +192,25 @@ class DateTimePicker extends StatelessWidget {
           child: new _InputDropdown(
             valueText: selectedTime.format(context),
             valueStyle: valueStyle,
-            onPressed: () { _selectTime(context); },
+            onPressed: () {
+              _selectTime(context);
+            },
           ),
         ),
       ],
     );
   }
 }
+
 class _InputDropdown extends StatelessWidget {
-  const _InputDropdown({
-    Key key,
-    this.child,
-    this.labelText,
-    this.valueText,
-    this.valueStyle,
-    this.onPressed }) : super(key: key);
+  const _InputDropdown(
+      {Key key,
+      this.child,
+      this.labelText,
+      this.valueText,
+      this.valueStyle,
+      this.onPressed})
+      : super(key: key);
 
   final String labelText;
   final String valueText;
@@ -234,37 +233,47 @@ class _InputDropdown extends StatelessWidget {
           children: <Widget>[
             new Text(valueText, style: valueStyle),
             new Icon(Icons.arrow_drop_down,
-              color: Theme.of(context).brightness == Brightness.light ? Colors.grey.shade700 : Colors.white70
-            ),
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Colors.grey.shade700
+                    : Colors.white70),
           ],
         ),
       ),
     );
   }
 }
-  final imgMason = new Image.asset("img/Mason.jpg");
-  final imgVicki = new Image.asset("img/Vicki.jpg");
-  CircleAvatar buildImage(String name,double r){
-    var img ; 
-    switch (name) {
-      case "Vicki":
-        img= imgVicki;
-        break;
-      case "Mason":
-        img= imgMason;
-        break;
-      default:
-        img= imgMason;
-    }
-    return new CircleAvatar(
-      radius: r,
-      child:img,
-    );
-  }
 
-  var progressHUD = new ProgressHUD(
-        backgroundColor: Colors.black12,
-        color: Colors.white,
-        containerColor: Colors.blue,
-        borderRadius: 5.0,
-      );
+final imgMason = new Image.asset("img/Mason.jpg");
+final imgVicki = new Image.asset("img/Vicki.jpg");
+final imgLuke = new Image.asset("img/Luke.jpg");
+final imgChristina = new Image.asset("img/Christina.jpg");
+CircleAvatar buildImage(String name, double r) {
+  var img;
+  switch (name) {
+    case "Vicki":
+      img = imgVicki;
+      break;
+    case "Mason":
+      img = imgMason;
+      break;
+    case "Luke":
+      img = imgLuke;
+      break;
+    case "Christina":
+      img = imgChristina;
+      break;
+    default:
+      img = imgMason;
+  }
+  return new CircleAvatar(
+    radius: r,
+    child: img,
+  );
+}
+
+var progressHUD = new ProgressHUD(
+  backgroundColor: Colors.black12,
+  color: Colors.white,
+  containerColor: Colors.blue,
+  borderRadius: 5.0,
+);

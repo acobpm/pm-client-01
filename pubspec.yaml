@@ -6,7 +6,6 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  jaguar_serializer: "^0.5.1" 
 
   
   # The following adds the Cupertino Icons font to your application.
@@ -40,6 +39,8 @@ flutter:
   assets:
    - img/Mason.jpg
    - img/Vicki.jpg
+   - img/Luke.jpg
+   - img/Christina.jpg
    - img/Default.jpg
    
 
